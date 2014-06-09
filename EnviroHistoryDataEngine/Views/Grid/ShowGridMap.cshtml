@@ -1,0 +1,93 @@
+﻿@model JassWeather.Models.JassWeatherAPI.SmartGridMap
+@{
+    ViewBag.Title = "Compare_MACC_NARR_Grids";
+}
+
+@{
+    
+    
+    int locationY = 133;
+    int locationX = 241;
+    string locationName = "Toronto";
+
+    locationY = (Model.JassLatLon != null && Model.JassLatLon.narrY != null) ? (int)Model.JassLatLon.narrY : 133;
+    locationX = (Model.JassLatLon != null && Model.JassLatLon.narrX != null) ? (int)Model.JassLatLon.narrX : 241;
+    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+    
+}
+
+
+<h2>Show Map Grid</h2>
+<h2>A column and a row are highlighted  for location @locationName at @locationY , @locationX  </h2>
+
+Max Distance: @Model.maxDistance at x:@Model.maxY Y:@Model.maxX
+
+Color Scale
+
+<table><tr>
+@{
+   double range = 0;
+
+    for (int y = 276; y >= 0; y--){
+        for (int x = 0; x < 349; x++)
+        {
+                if (Model.mapDistance[y, x] != null && Model.mapDistance[y, x] > range)   {
+                    range = Model.mapDistance[y, x];
+                }     
+        }
+    }
+    
+
+    double myfactor = (range>0)? (1024 / range):1;
+    int start, end;
+
+        start = 0;
+        end = 1024;
+    }
+
+
+
+
+    @for (var c = start; c < end; c++ )
+    {
+        JassWeather.Models.JassRGB rgb = JassWeather.Models.JassWeatherAPI.rgb(c,start,end);
+    <td style="background-color:rgb(@rgb.r,@rgb.g,@rgb.b)">
+        @(c*range/1024)</td>
+    }
+</tr></table>
+
+<table>
+@for (int y = 276; y >= 0 ; y--)
+{
+    <tr>
+        <td>
+            @y
+        </td>
+           @for (int x = 0; x < 349; x++)
+           {
+               JassWeather.Models.JassRGB rgb;
+               string borderStyle = "none";
+               if (y == @locationY || x == @locationX) { borderStyle = "solid"; }
+               if (Model.mapDistance[y, x] != null && Model.mapDistance[y, x] <= range)
+               {
+                   double scaledValue = (double)Model.mapDistance[y, x] * myfactor;
+                   rgb = JassWeather.Models.JassWeatherAPI.rgb(scaledValue, 0, 1024);
+               }
+               else
+               {
+                   rgb = new JassWeather.Models.JassRGB(0, 0, 0);
+               }
+            <td style="width:200px; background-color:rgb(@rgb.r,@rgb.g,@rgb.b); border-style:@borderStyle; border-color:black; border-width:medium">
+                @y,@x
+                @if (Model.mapDistance[y, x] != null && Model.mapDistance[y, x] < range)
+                {
+                    <p>(1)@Model.mapLatY[y, x],@Model.mapLonX[y, x]:@Math.Round(Model.mapDistance[y, x],2)</p>
+                    <p>(2)@Model.map2LatY[y, x],@Model.map2LonX[y, x]:@Math.Round(Model.map2Distance[y, x],2)</p>      
+                    <p>(3)@Model.map3LatY[y, x],@Model.map3LonX[y, x]:@Math.Round(Model.map3Distance[y, x],2)</p>
+                    <p>(4)@Model.map4LatY[y, x],@Model.map4LonX[y, x]:@Math.Round(Model.map4Distance[y, x], 2)</p>
+                }
+            </td>
+           }
+    </tr>
+}
+    </table>

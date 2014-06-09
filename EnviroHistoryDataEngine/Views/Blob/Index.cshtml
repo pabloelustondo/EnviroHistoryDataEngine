@@ -1,0 +1,39 @@
+﻿@using Microsoft.WindowsAzure.Storage.Blob;
+@model List<CloudBlobContainer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Blobs in Azure (Internal) Storage  </h2>
+
+       @Html.ActionLink("DeleteBlobRange", "DeleteBlobRange")
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Last Updated (UTC)
+        </th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+         <td>
+            @item.Name
+        </td>
+         <td>
+            @item.Properties.LastModified
+        </td>
+        <td>
+            @Html.ActionLink("Explore", "ListBlobs", new { containerName=item.Name })
+
+        </td>
+    </tr>
+}
+
+</table>
+

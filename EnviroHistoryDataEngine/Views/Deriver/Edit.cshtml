@@ -1,0 +1,189 @@
+﻿@model JassWeather.Models.JassDeriver
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>JassDeriver</legend>
+
+        @Html.HiddenFor(model => model.JassDeriverID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JassVariableID, "JassVariable")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("JassVariableID", String.Empty)
+            @Html.ValidationMessageFor(model => model.JassVariableID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JassGridID, "JassGrid")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("JassGridID", String.Empty)
+            @Html.ValidationMessageFor(model => model.JassGridID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X1)
+            @Html.ValidationMessageFor(model => model.X1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X2)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X2)
+            @Html.ValidationMessageFor(model => model.X2)
+        </div>
+
+                <div class="editor-label">
+            @Html.LabelFor(model => model.X3)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X3)
+            @Html.ValidationMessageFor(model => model.X3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X4)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X4)
+            @Html.ValidationMessageFor(model => model.X4)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X5)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X5)
+            @Html.ValidationMessageFor(model => model.X5)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X1Level)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X1Level)
+            @Html.ValidationMessageFor(model => model.X1Level)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X2Level)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X2Level)
+            @Html.ValidationMessageFor(model => model.X2Level)
+        </div>
+
+                <div class="editor-label">
+            @Html.LabelFor(model => model.X3Level)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X3Level)
+            @Html.ValidationMessageFor(model => model.X3Level)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X4Level)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X4Level)
+            @Html.ValidationMessageFor(model => model.X4Level)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.X4HistoryLength)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.X4HistoryLength)
+            @Html.ValidationMessageFor(model => model.X4HistoryLength)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JassFormulaID, "JassFormula")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("JassFormulaID", String.Empty)
+            @Html.ValidationMessageFor(model => model.JassFormulaID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.YearStart)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.YearStart)
+            @Html.ValidationMessageFor(model => model.YearStart)
+        </div>
+
+         <div class="editor-label">
+            @Html.LabelFor(model => model.MonthStart)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MonthStart)
+            @Html.ValidationMessageFor(model => model.MonthStart)
+        </div>
+
+         <div class="editor-label">
+            @Html.LabelFor(model => model.DayStart)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DayStart)
+            @Html.ValidationMessageFor(model => model.DayStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.YearEnd)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.YearEnd)
+            @Html.ValidationMessageFor(model => model.YearEnd)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MnnthEnd)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MnnthEnd)
+            @Html.ValidationMessageFor(model => model.MnnthEnd)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DayEnd)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DayEnd)
+            @Html.ValidationMessageFor(model => model.DayEnd)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

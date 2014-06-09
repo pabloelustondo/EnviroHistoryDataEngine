@@ -1,0 +1,24 @@
+﻿@{  
+    int? CurrentRequestSetId = (int?)Session["CurrentRequestSetId"];
+    string CurrentRequestSetName = (string)Session["CurrentRequestSetName"];
+}
+<a href="/elmah.axd">logs</a>
+@if (Request.IsAuthenticated) {
+    
+        <text>User: </text>@Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })                                                                                                                                                                          
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
+
+    if(User.IsInRole("Admin") || User.IsInRole("Envirolytic")){
+        if (Session["StorageConnectionString"] == "StorageConnectionStringProd"){
+        <text>Production Storage </text>}
+        if (Session["StorageConnectionString"] == "StorageConnectionStringDev"){
+        <text>Dev/QA Storage </text>}                                                    
+    }
+            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        }
+        if(CurrentRequestSetId!=null){            
+        <p>Working on API: @CurrentRequestSetName (@CurrentRequestSetId)</p>
+        }
+
+}

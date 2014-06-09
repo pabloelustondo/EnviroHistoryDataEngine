@@ -1,0 +1,64 @@
+﻿@model JassWeather.Models.JassProcessor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>JassProcessor</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.status)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.info)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.info)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.startTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.startTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.endTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.endTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.spanTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.spanTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lastUpdate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lastUpdate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.JassProcessorID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

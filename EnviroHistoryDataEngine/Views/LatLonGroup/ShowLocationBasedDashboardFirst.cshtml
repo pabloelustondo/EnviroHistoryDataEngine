@@ -1,0 +1,94 @@
+﻿@model JassWeather.Controllers.LatLonGroupController.ShowLocationBasedDashboardModel
+
+
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>JassBuilder</legend>
+
+        <div class="editor-field">
+            Generate File?
+            @Html.EditorFor(model => model.generateFiles)
+            @Html.ValidationMessageFor(model => model.generateFiles)
+        </div>
+
+        <div class="editor-label">
+            Choose Location or leave empty for all location in current group
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("JassLatLonID", String.Empty)
+            @Html.ValidationMessageFor(model => model.JassLatLonID)
+        </div>
+
+        <div class="editor-label">
+            Year
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.year)
+            @Html.ValidationMessageFor(model => model.year)
+        </div>
+                <div class="editor-label">
+            Month
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.month)
+            @Html.ValidationMessageFor(model => model.month)
+        </div>
+        <div class="editor-label">
+            Day
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.day)
+            @Html.ValidationMessageFor(model => model.year)
+        </div>
+        If only interested in one day, leave the next one as 0
+        <div class="editor-label">
+            Year
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.yearEnd)
+            @Html.ValidationMessageFor(model => model.yearEnd)
+        </div>
+        <div class="editor-label">
+            Month
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.monthEnd)
+            @Html.ValidationMessageFor(model => model.monthEnd)
+        </div>
+        <div class="editor-label">
+            Day
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.dayEnd)
+            @Html.ValidationMessageFor(model => model.dayEnd)
+        </div>
+
+        @for (int v = 0; v < Model.variableChoices.Length; v++)
+        {
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.variables[v].Name)
+            @Html.CheckBoxFor(model => model.variableChoices[v])
+
+            @if (Model.variables[v].Name == "VorticityAbsolute" ||
+                 Model.variables[v].Name == "VorticityAbsolute2" ||
+                 Model.variables[v].Name == "Temperature" ||
+                 Model.variables[v].Name == "SoilTemperature"                
+                ) {           
+                @Html.EditorFor(model => model.variableLevels[v])
+                }else{
+                    @Html.HiddenFor(model => model.variableLevels[v])
+                }
+        </div>
+
+        }
+
+
+         <p>
+            <input type="submit" value="Submit" />
+        </p>
+     </fieldset>
+}
+

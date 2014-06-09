@@ -1,0 +1,157 @@
+﻿@model JassWeather.Models.JassWeatherAPI.VariableValueModel
+@using JassWeather.Models
+<style>
+
+table { table-layout: fixed; }
+th, td { width: 2px; font-size:xx-small}
+
+</style>
+
+@{
+    
+    DateTime requiredDay = new DateTime(@Model.year,@Model.monthIndex,@Model.dayIndex);
+    double numberOfDaysFromBeginning = (requiredDay - Model.startingDate).TotalDays;
+    int timeIndex = (int)(numberOfDaysFromBeginning * Model.stepsInADay);
+    
+    //location stuff
+    int locationY = 133;
+    int locationX = 241;
+    string locationName = "Toronto";
+    int hrDifference = 3; 
+    
+    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+    hrDifference = (Model.JassLatLon != null && Model.JassLatLon.hrDifference!= null) ? Model.JassLatLon.hrDifference : -4;
+    
+    //Toronto  CN Tower 301 Front St W  43.642811  -79.387046  
+    //NARR 133: 241     MACC 41: 250    CFSR 93: 561  SHER 425: 425  
+
+    if (Model.JassGrid != null && Model.JassGrid.Type == "NARR") { 
+    locationY = (Model.JassLatLon != null && Model.JassLatLon.narrY != null) ? (int)Model.JassLatLon.narrY : 133;
+    locationX = (Model.JassLatLon != null && Model.JassLatLon.narrX != null) ? (int)Model.JassLatLon.narrX : 241;
+        }
+    if (Model.JassGrid != null && Model.JassGrid.Type == "MACC")
+    {
+        locationY = (Model.JassLatLon != null && Model.JassLatLon.maccY != null) ? (int)Model.JassLatLon.maccY : 41;
+        locationX = (Model.JassLatLon != null && Model.JassLatLon.maccX != null) ? (int)Model.JassLatLon.maccX : 250;
+    }
+    if (Model.JassGrid != null && Model.JassGrid.Type == "CFSR")
+    {
+        locationY = (Model.JassLatLon != null && Model.JassLatLon.cfsrY != null) ? (int)Model.JassLatLon.cfsrY : 93;
+        locationX = (Model.JassLatLon != null && Model.JassLatLon.cfsrX != null) ? (int)Model.JassLatLon.cfsrX : 561;
+    }
+    if (Model.JassGrid != null && Model.JassGrid.Type == "SHER")
+    {
+        locationY = (Model.JassLatLon != null && Model.JassLatLon.sherY != null) ? (int)Model.JassLatLon.sherY : 425;
+        locationX = (Model.JassLatLon != null && Model.JassLatLon.sherX != null) ? (int)Model.JassLatLon.sherX : 425;
+    }
+
+ 
+}
+
+<h2>Values for @Model.fileName for Day @requiredDay (UTC) (hrDifference = @hrDifference) at step=@Model.stepIndex 
+    @if (Model.JassGrid.Levelsize > 0) {  <b>level=@Model.levelIndex</b> }
+    </h2>
+<h2>A column and a row are highlighted  for location @locationName at @locationY , @locationX  </h2>
+
+Max Value:  @Model.gridValues.measureMax[0]  Min Value : @Model.gridValues.measureMin[0] 
+<br />MaxPosition Y:@Model.gridValues.maxY[0] X:@Model.gridValues.maxX[0]  
+<br />MinPosition Y:@Model.gridValues.minY[0] X:@Model.gridValues.minX[0]  
+
+<table><tr>
+@foreach (var v in Model.gridValues.variableMetadata)
+{
+    <td>@v.Key<text>:</text>@v.Value</td>
+}
+</tr></table>
+Color Scale
+
+<table><tr>
+@{
+    double range = Model.gridValues.measureMax[0] - Model.gridValues.measureMin[0];
+    double myfactor = (range>0)? (1024 / range):1;
+    int start, end;
+
+        start = 0;
+        end = 1024;
+    }
+
+
+
+
+    @for (var c = start; c < end; c++ )
+    {JassRGB rgb = JassWeatherAPI.rgb(c,start,end);
+    <td style="background-color:rgb(@rgb.r,@rgb.g,@rgb.b)">
+        @(c*range/1024 + Model.gridValues.measureMin[0])</td>
+    }
+</tr></table>
+@{
+
+
+    int maxY = Model.gridValues.yLength - 1;
+    int minY = 0;
+
+    int maxX = Model.gridValues.xLength;
+    int minX = 0;
+    
+    int maxY2 = locationY + Model.maxYaroundLoc;
+    int minY2 = locationY - Model.maxYaroundLoc;
+
+    int maxX2 = locationX + Model.maxXaroundLoc;
+    int minX2 = locationX - Model.maxXaroundLoc;
+
+
+    if (minY2 > minY && minY2 < maxY) { minY = minY2; }
+    if (maxY2 < maxY && maxY2 > minY) { maxY = maxY2; }
+
+    if (minX2 > minX && minX2 < maxX) { minX = minX2; }
+    if (maxX2 < maxX && maxX2 > minX) { maxX = maxX2; }
+
+}
+<table>
+    <tr>
+        <th>
+            Y
+        </th>
+        @for (int x = minX; x < maxX; x++ ){
+        <th>
+            @x
+        </th>
+        }
+    </tr>
+
+
+@{int y=minY;}
+@for (int yy = maxY; yy >= minY ; yy--)
+{
+    if (Model.JassGrid.Type == "NARR") { y = yy; }
+    if (Model.JassGrid.Type == "CFSR") { y = minY + maxY-yy; }
+    if (Model.JassGrid.Type == "NARR") { y = minY + maxY - yy; }
+    if (Model.JassGrid.Type == "NARR") { y = minY + maxY - yy; }
+    <tr>
+        <td>
+            @y
+        </td>
+           @for (int x = minX; x < maxX; x++)
+           {
+               JassWeather.Models.JassRGB rgb;
+               if (Model.gridValues.measure[0, 0, y, x] != null)
+               {
+                   double scaledValue = ((double)Model.gridValues.measure[0, 0, y, x] - Model.gridValues.measureMin[0]) * myfactor;
+                   rgb = JassWeather.Models.JassWeatherAPI.rgb(scaledValue, 0, 1024);
+               }
+               else
+               {
+                   rgb = new JassRGB(0, 0, 0);
+               }
+               string borderStyle = "none";
+               if (y == locationY || x == locationX) { borderStyle = "solid"; }
+            <td style="background-color:rgb(@rgb.r,@rgb.g,@rgb.b); border-style:@borderStyle; border-color:black; border-width:medium">
+                @y,@x
+                @Model.gridValues.measure[0, 0, y, x]
+            </td>
+           }
+    </tr>
+}
+
+</table>
+

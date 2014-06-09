@@ -1,0 +1,40 @@
+﻿@model List<string>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Files on Website App_Data (@ViewBag.Path) </h2>
+
+@ViewBag.Message
+
+       @Html.ActionLink("DeleteAll", "CleanAppData")
+
+<table>
+    <tr>
+        <th>
+            File Name
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+         <td>
+             @{string urltemp =  @item;
+               int index = urltemp.IndexOf("App_Data\\");
+               string filename = urltemp.Substring(index);
+               string filePath = "/" + filename;
+               
+               }
+            <a href="@filePath">@filePath </a>
+        </td>
+        <td>
+            @Html.ActionLink("Del", "DeleteFromAppData", new { fileName=item })
+        </td>
+    </tr>
+}
+
+</table>

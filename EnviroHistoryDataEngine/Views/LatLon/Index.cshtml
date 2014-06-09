@@ -1,0 +1,91 @@
+﻿@model IEnumerable<JassWeather.Models.JassLatLon>
+
+@{
+    ViewBag.Title = "Index";
+}
+@ViewBag.Message
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Info)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lon)
+        </th>
+        <th>
+            Narr Y:X
+        </th>
+        <th>
+            Macc Y:X
+        </th>
+        <th>
+            Cfsr Y:X
+        </th>
+        <th>
+            Sher Y:X
+        </th>
+        <th>
+            hrDiff
+        </th>
+        <th>
+            Group
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Info)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.narrY):
+            @Html.DisplayFor(modelItem => item.narrX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.maccY):
+            @Html.DisplayFor(modelItem => item.maccX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cfsrY):
+            @Html.DisplayFor(modelItem => item.cfsrX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sherY):
+            @Html.DisplayFor(modelItem => item.sherX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hrDifference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JassLatLonGroup.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.JassLatLonID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.JassLatLonID })
+        </td>
+    </tr>
+}
+
+</table>

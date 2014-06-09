@@ -1,0 +1,27 @@
+﻿@model JassWeather.Controllers.GridController.PlotGridPointsAroundLocationModel
+
+@{
+    ViewBag.Title = "PlotGridPointsAroundLocation";
+    int locationY = 133;
+    int locationX = 241;
+    string locationName = "Toronto";
+
+    locationY = (Model.JassLatLon != null && Model.JassLatLon.narrY != null) ? (int)Model.JassLatLon.narrY : 133;
+    locationX = (Model.JassLatLon != null && Model.JassLatLon.narrX != null) ? (int)Model.JassLatLon.narrX : 241;
+    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+}
+<h2>Grid Mapper Viewer </h2>
+
+<h2>A column and a row are highlighted  for location @locationName at @locationY , @locationX  </h2>
+Click on the links below the whole grid with a color code based on distance
+
+<p>@Html.ActionLink("Show Entire NARR => CFSR Map on the NARR Grid", "ShowGridMap", "Grid", new {mapperFileName="Narr_2_CFSR_Grid_Mapper.nc", JassLatLonID=Model.JassLatLonID},null)</p> 
+<p>@Html.ActionLink("Show Entire NARR => MACC Map on the NARR Grid", "ShowGridMap", "Grid", new { mapperFileName = "Narr_2_Macc_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p> 
+<p>@Html.ActionLink("Show Entire NARR => SHERIDAN Map on the NARR Grid", "ShowGridMap", "Grid", new { mapperFileName = "Narr_2_SHER_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p> 
+<p>@Html.ActionLink("Show Entire NARR => NAPS NO2 Map on the NARR Grid", "ShowGridMap", "Grid", new { mapperFileName = "Narr_2_NAPSNO2_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p>
+
+
+<p>@Html.ActionLink("Show Entire CFSR Grid", "ShowGrid", "Grid", new { mapperFileName = "Narr_2_CFSR_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p>
+<p>@Html.ActionLink("Show Entire MACC Grid", "ShowGrid", "Grid", new { mapperFileName = "Narr_2_Macc_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p>
+<p>@Html.ActionLink("Show Entire SHERIDAN Grid", "ShowGrid", "Grid", new { mapperFileName = "Narr_2_SHER_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p>
+<p>@Html.ActionLink("Show Entire NAPS NO2 Grid", "ShowGrid", "Grid", new { mapperFileName = "Narr_2_NAPSNO2_Grid_Mapper.nc", JassLatLonID = Model.JassLatLonID }, null)</p>  

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Tools";
+}
+
+<h2>Tools</h2>
+
+<ul>
+<li>@Html.ActionLink("Create Test Macc-Narr Grid Mapper ", "MapMacc2NarrTest", "Grid")</li>
+<li>@Html.ActionLink("Create Test CFSR-Narr Grid Mapper ", "MapCFSR2NarrTest", "Grid")</li>
+<li>@Html.ActionLink("Create Real CFSR-Narr Grid Mapper ", "MapCFSR2NarrReal", "Grid")</li>
+<li>@Html.ActionLink("Show Grid from Grid Mapper File", "ShowGridMap", "Grid")</li>
+<li>@Html.ActionLink("Create Envirolytic Narr Grid", "CreateEnvirolyticNarrGrid", "Grid")</li>
+</ul>
+
+Sheridan:
+
+<ul>
+<li>@Html.ActionLink("Sheridan History Downloader", "TestSheridan", "Test")</li>
+<li>@Html.ActionLink("Sheridan Lat Lon Getter  - calls google and store results in DB based on a stations list ", "TestSheridanLatLon", "Test")</li>
+<li>@Html.ActionLink("Save Sheridan Lat Lon from DB or Original - use our DB or the sent lat / lon to get the best", "SaveSheridanLatLon", "Test")</li>
+<li>@Html.ActionLink("Test SHER-Narr Grid Mapper - creates a small version of the mapper for testing", "MapSHER2NarrTest", "Grid")</li>
+<li>@Html.ActionLink("Create Real SHER-Narr Grid Mapper ", "MapSHER2NarrReal", "Grid")</li>
+</ul>
+
+NAPS NO2:
+
+<ul>
+    <li>@Html.ActionLink("Save Naps NO2 Lat Lon .nc from csv file", "SaveNapsNO2LatLon", "Grid")</li>
+    <li>@Html.ActionLink("Test NAPS NO2-Narr Grid Mapper - creates a small version of the mapper for testing", "MapNAPSNO22NarrTest", "Grid")</li>
+    <li>@Html.ActionLink("Create Real NAPS NO2 - Narr Grid Mapper ", "MapNAPSNO22NarrReal", "Grid")</li>
+</ul>
+

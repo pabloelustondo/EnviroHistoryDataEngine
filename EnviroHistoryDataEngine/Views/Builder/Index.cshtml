@@ -1,0 +1,154 @@
+﻿@model IEnumerable<JassWeather.Models.JassBuilder>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Variable
+        </th>
+        <th>
+            Grid
+        </th>
+        <th>
+            Source1
+        </th>
+        <th>
+            SourceVar
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.month)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.weeky)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.day)
+        </th>
+         <th>
+            @Html.DisplayNameFor(model => model.yearEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.monthEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.weekyEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dayEnd)
+        </th>
+        <td>
+            Status
+        </td>
+        <td>
+            Server
+        </td>
+        <td>
+            #TotalFiles
+        </td>
+        <td>
+            #Files
+        </td>
+        <th>
+            OnDisk
+        </th>
+        <th>
+            StartTime
+        </th>
+        <th>
+            Delay
+        </th>
+        <th>
+            
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.JassVariable.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JassGrid.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.APIRequest.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Source1VariableName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.month)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.weeky)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.day)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.yearEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.monthEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.weekyEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dayEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.setTotalSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.setCurrentSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startTotalTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spanTotalTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("ProcessBuilderAndUploadAllCleanAsync", "ProcessBuilderAndUploadAllCleanAsync", new { id = item.JassBuilderID }) |
+            @Html.ActionLink("QueryBuilderStatus", "QueryBuilderStatus", new { id = item.JassBuilderID }) |
+            @Html.ActionLink("TestOnDisk", "TestBuilder", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("ProcessAndUpload", "ProcessBuilderAndUpload", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("ProcessAndUploadAll", "ProcessBuilderAndUploadAll", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("ProcessAndUploadAllClean", "ProcessBuilderAndUploadAllClean", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("ProcessAllLocally", "ProcessBuilderAllLocally", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("CheckD", "checkBuilderOnDisk", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("CleanD", "cleanBuilderOnDisk", new { id=item.JassBuilderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.JassBuilderID })
+        </td>
+    </tr>
+}
+
+</table>

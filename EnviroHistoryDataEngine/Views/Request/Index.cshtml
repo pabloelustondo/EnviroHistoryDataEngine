@@ -1,0 +1,60 @@
+﻿@model JassWeather.Models.APIRequestSet
+
+<h2>Data Requests to Data Source @Model.name </h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            GridName
+        </th>
+                <th>
+            Year
+        </th>
+                <th>
+            Month
+        </th>
+                        <th>
+            Schema
+        </th>
+                        <th>
+            FileSize
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.APIRequests) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+         <td>
+            @Html.DisplayFor(modelItem => item.JassGrid.Name)
+        </td>
+                <td>
+            @Html.DisplayFor(modelItem => item.sampleYear)
+        </td>
+                        <td>
+            @Html.DisplayFor(modelItem => item.sampleMonth)
+        </td>
+                                <td>
+            @Html.DisplayFor(modelItem => item.schema)
+        </td>
+                                <td>
+            @Html.DisplayFor(modelItem => item.fileSize)
+        </td>
+     
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("ProcessSource", "ProcessSource", new { id=item.Id }) |
+            @Html.ActionLink("Insp", "AnalyzeFileDisk", new { id=item.Id }) |
+            @Html.ActionLink("Del", "Delete", new { id=item.Id }) | 
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,214 @@
+﻿@model JassWeather.Models.JassLatLon
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+</script>
+
+<script>
+    function initialize()
+    {   var locationLat = "@Model.Lat"; 
+        var locationLon = "@Model.Lon"; 
+        var narrLat = "@Model.narrLat"; 
+        var narrLon = "@Model.narrLon";
+
+        var maccLat = "@Model.maccLat";
+        var maccLon = "@Model.maccLon";
+
+        var cfsrLat = "@Model.cfsrLat";
+        var cfsrLon = "@Model.cfsrLon";
+
+        var sherLat = "@Model.sherLat";
+        var sherLon = "@Model.sherLon";
+
+        var napsNO2Lat = "@Model.napsNO2Lat";
+        var napsNO2Lon = "@Model.napsNO2Lon";
+
+        var napsO3Lat = "@Model.napsO3Lat";
+        var napsO3Lon = "@Model.napsO3Lon";
+
+        var napsPM25Lat = "@Model.napsPM25Lat";
+        var napsPM25Lon = "@Model.napsPM25Lon";
+
+        var mapProp = {
+            center:new google.maps.LatLng(locationLat,locationLon),
+            zoom:8,
+            mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+        var map=new google.maps.Map(document.getElementById("googleMap")
+          , mapProp);
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locationLat, locationLon),
+            title: "your location" 
+        });
+
+        var markerNarr = new google.maps.Marker({
+            position: new google.maps.LatLng(narrLat, narrLon),
+            title: "Assigend NARR cell"
+        });
+
+        var markerMacc = new google.maps.Marker({
+            position: new google.maps.LatLng(maccLat, maccLon),
+            title: "Closest Mapped MACC cell centerpoint"
+        });
+
+        var markercfsr = new google.maps.Marker({
+            position: new google.maps.LatLng(cfsrLat, cfsrLon),
+            title: "Closest Mapped CFSR cell centerpoint"
+        });
+
+        var markersher = new google.maps.Marker({
+            position: new google.maps.LatLng(sherLat, sherLon),
+            title: "Closest Mapped Sheridan cell centerpoint"
+        });
+
+        var markernapsNO2 = new google.maps.Marker({
+            position: new google.maps.LatLng(napsNO2Lat, napsNO2Lon),
+            title: "Closest Mapped napsNO2 cell centerpoint @Model.napsNO2Y"
+        });
+
+        var markernapsO3 = new google.maps.Marker({
+            position: new google.maps.LatLng(napsO3Lat, napsO3Lon),
+            title: "Closest Mapped napsO3 cell centerpoint"
+        });
+
+        var markernapsPM25 = new google.maps.Marker({
+            position: new google.maps.LatLng(napsPM25Lat, napsPM25Lon),
+            title: "Closest Mapped napsPM25 cell centerpoint"
+        });
+
+        markerNarr.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+        marker.setMap(map);
+
+        markerNarr.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+        markerNarr.setMap(map);
+
+        markerMacc.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+        markerMacc.setMap(map);
+
+        markercfsr.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png')
+        markercfsr.setMap(map);
+
+        markersher.setIcon('http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png')
+        markersher.setMap(map);
+
+        markernapsNO2.setIcon('http://maps.google.com/mapfiles/ms/icons/ylw-pushpin.png')
+        markernapsNO2.setMap(map);
+
+        markernapsO3.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-pushpin-dot.png')
+        markernapsO3.setMap(map);
+
+        markernapsPM25.setIcon('http://maps.google.com/mapfiles/ms/icons/grn-pushpin-dot.png')
+        markernapsPM25.setMap(map);
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<div id="googleMap" style="width:500px;height:380px;"></div>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>JassLatLon</legend>
+
+        @Html.HiddenFor(model => model.JassLatLonID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Info)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Info)
+            @Html.ValidationMessageFor(model => model.Info)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Lat)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Lat)
+            @Html.ValidationMessageFor(model => model.Lat)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Lon)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Lon)
+            @Html.ValidationMessageFor(model => model.Lon)
+        </div>
+
+        <div style="font-weight:bold">
+            Narr Grid Cell:  @Model.narrY , @Model.narrX
+        </div>
+        <div style="font-weight:bold">
+            Narr Grid CenterPoint:  @Model.narrLat , @Model.narrLon
+        </div>
+
+        <div style="font-weight:bold">
+            Closest Mapped Macc Grid Cell:  @Model.maccY , @Model.maccX
+        </div>
+        <div style="font-weight:bold">
+            Closest Mapped Macc Grid Centerpoint:  @Model.maccLat , @Model.maccLon
+            </div>
+        <div style="font-weight:bold">
+            Closest Mapped Cfsr Grid Cell:  @Model.cfsrY , @Model.cfsrX
+        </div>
+        <div style="font-weight:bold">
+            Closest Mapped Cfsr Grid Centerpoint:  @Model.cfsrLat , @Model.cfsrLon
+        </div>
+        <div style="font-weight:bold">
+            Closest Mapped Sheridan Grid Station:  @Model.sherY , @Model.sherX
+        </div>
+        <div style="font-weight:bold">
+            Closest Mapped napsNO2ind Station Centerpoint: (@Model.napsNO2Y) , @Model.napsNO2Lat , @Model.napsNO2Lon
+        </div>
+        <div style="font-weight:bold">
+            Closest Mapped napsO3ind Station Centerpoint:  (@Model.napsO3Y), @Model.napsO3Lat , @Model.napsO3Lon
+        </div>
+        <div style="font-weight:bold">
+            Closest Mapped napsPM25ind Station Centerpoint: (@Model.napsPM25Y), @Model.napsPM25Lat , @Model.napsPM25Lon
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.hrDifference)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.hrDifference)
+            @Html.ValidationMessageFor(model => model.hrDifference)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JassLatLonGroupID, "JassLatLonGroup")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("JassLatLonGroupID", String.Empty)
+            @Html.ValidationMessageFor(model => model.JassLatLonGroupID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

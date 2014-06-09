@@ -1,0 +1,66 @@
+﻿@model IEnumerable<JassWeather.Models.JassProcessor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Processors</h2>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            Goal/Task
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.update)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.startTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.endTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastUpdate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <a href="http://@(item.name).azurewebsites.net">@item.name</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.info)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.update)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.endTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastUpdate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.JassProcessorID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.JassProcessorID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.JassProcessorID })
+        </td>
+    </tr>
+}
+
+</table>

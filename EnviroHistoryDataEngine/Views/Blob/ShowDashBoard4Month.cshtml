@@ -1,0 +1,70 @@
+﻿@using JassWeather.Models;
+@model List<JassVariableStatus>
+
+@{
+    ViewBag.Title = "Index";
+    long grandTotal4Month = 0;
+}
+
+<style>
+    .green {background-color: lightgreen}
+    .yellow {background-color: lightyellow}
+    .white {}
+     a { text-decoration:underline}
+</style>
+
+<h2>Available Data for year @ViewBag.year  and Month @(ViewBag.monthIndex+1) by Day </h2>
+
+
+<table>
+    <tr>
+        <th>
+            Variable
+        </th>
+        <th>
+            %Fill
+        </th>
+        <th>
+            Size (MB)
+        </th>
+
+        @for(int y=0; y<ViewBag.numberOfDays; y++){
+            <th>
+               @(y+1)
+            </th>
+        }
+
+
+    </tr>
+
+@foreach (var item in Model) {
+    string classForVariable = "white";
+    if (item.StatusMonthLevel[ViewBag.yearIndex][ViewBag.monthIndex] == 100) { classForVariable = "green"; }
+    if (item.StatusMonthLevel[ViewBag.yearIndex][ViewBag.monthIndex] > 0 && item.StatusMonthLevel[ViewBag.yearIndex][ViewBag.monthIndex] < 100) { classForVariable = "yellow"; }
+    <tr>
+         <td>
+            @item.VariableName
+        </td>
+         <td class="@classForVariable"> 
+           @item.StatusMonthLevel[ViewBag.yearIndex][ViewBag.monthIndex]%
+        </td>
+         <td class="@classForVariable"> 
+           @(System.Math.Round((decimal)item.SizeMonthLevel[ViewBag.yearIndex][ViewBag.monthIndex]/1000000,2) )
+                  @{ grandTotal4Month += item.SizeMonthLevel[ViewBag.yearIndex][ViewBag.monthIndex];}
+        </td>
+        @for (int y = 0; y < ViewBag.numberOfDays; y++)
+        {string value = ""+(item.StatusDayLevel[ViewBag.yearIndex][ViewBag.monthIndex][y]/100);
+            string color="white";
+            if (item.StatusDayLevel[ViewBag.yearIndex][ViewBag.monthIndex][y] == 100) { color = "green"; }
+            if (item.StatusDayLevel[ViewBag.yearIndex][ViewBag.monthIndex][y] > 0 && item.StatusDayLevel[ViewBag.yearIndex][ViewBag.monthIndex][y] < 100) { color = "yellow"; }
+            <td class="@color"> 
+                 @Html.ActionLink(value, "ShowDashBoard4Day", new { variableName=item.VariableName, yearIndex=ViewBag.yearIndex, monthIndex=ViewBag.monthIndex, dayIndex=y, stepIndex=0, levelIndex=0 })                
+            </td>
+        }
+    </tr>
+}
+
+</table>
+
+<p class="yellow">Grand Total (MB) @(grandTotal4Month/1000000)</p>
+

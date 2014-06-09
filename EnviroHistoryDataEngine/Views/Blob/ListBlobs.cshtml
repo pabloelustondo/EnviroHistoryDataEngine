@@ -1,0 +1,45 @@
+﻿@using Microsoft.WindowsAzure.Storage.Blob;
+@model List<CloudBlockBlob>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Blobs in Azure Storage </h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Length (MB)
+        </th>
+        <th>
+            Last Updated (UTC)
+        </th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+         <td>
+            @item.Name
+        </td>
+        <td>
+            @(item.Properties.Length / 1000000)
+        </td>
+         <td>
+            @item.Properties.LastModified
+        </td>
+
+         <td>
+            @Html.ActionLink("Inspect", "ShowDashBoard4DayFromFile", "Blob", new {containerName = ViewBag.containerName, fileName=item.Name },null)
+            @Html.ActionLink("Download2Disk", "Download2Disk", "Blob", new { containerName = ViewBag.containerName, fileName = item.Name }, null)
+            @Html.ActionLink("Download2TempDisk", "Download2TempDisk", "Blob", new { containerName = ViewBag.containerName, fileName = item.Name }, null)
+        </td>
+    </tr>
+}
+
+</table>
+
