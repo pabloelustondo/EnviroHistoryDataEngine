@@ -312,6 +312,7 @@
     <Compile Include="ViewModels\JassErrorPageModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\dummy.txt" />
     <Content Include="App_Files\naps-stations.txt" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="App_TempFiles\dummy.txt" />
@@ -385,8 +386,26 @@
     <Content Include="App_Files\naps_stations.nc" />
     <Content Include="App_Files\napsNO2_stations.nc" />
     <Content Include="App_Files\Narr_2_NapsNO2_Grid_Mapper.nc" />
-    <Content Include="App_Data\Temperature2m_2003_01_01.nc" />
+    <None Include="Properties\PublishProfiles\envirolytic.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic10.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic11.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic12.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic13.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic14.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic15.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic2 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic2.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic3.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic4.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic5.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic6.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic7.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic8.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytic9.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolyticftp.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolyticmark.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolytictest.pubxml" />
+    <None Include="Properties\PublishProfiles\envirolyticzen.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\POC Explanation.png" />
     <Content Include="Scripts\jquery-1.8.2.js" />

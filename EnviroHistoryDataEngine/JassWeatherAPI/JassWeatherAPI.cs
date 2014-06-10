@@ -120,7 +120,6 @@ namespace JassWeather.Models
         public string AppTempFilesFolder;
         public string AppFilesFolder;
         public string JassServerName;
-        public JassProcessor myJassProcessor;
         public string storageConnectionString;
         DateTime startTotalTime = DateTime.UtcNow;
         DateTime endTotalTime = DateTime.UtcNow;
@@ -195,7 +194,6 @@ namespace JassWeather.Models
             this.AppFilesFolder = appDataFolder + "\\..\\App_Files";
             this.AppTempFilesFolder = appDataFolder + "\\..\\App_TempFiles";
             this.JassServerName = ServerNameIn;
-            this.myJassProcessor = myProcessor();
           }
 
         public static JassRGB[] getColors()
@@ -3460,15 +3458,16 @@ v(np)  =   ---------------------------------------------------------------------
 
         }
 
-        private JassProcessor myProcessor()
+        private JassProcessor GetMyProcessor()
         {
-            JassProcessor processor = new JassProcessor();
+            JassProcessor processor;
             var myprocessors = db.JassProcessors.Where(p => p.name == this.JassServerName);
 
             if (myprocessors.Count() > 0)
             {
                 processor = myprocessors.FirstOrDefault();
             } else {
+                processor = new JassProcessor();
                 processor.name = this.JassServerName;
                 processor.lastUpdate = DateTime.Now;
                 processor.status = JassProcessor.statusNew;
@@ -3481,7 +3480,7 @@ v(np)  =   ---------------------------------------------------------------------
         public Boolean markProcessStarts(string info, string processInfo)
         {
 
-            JassProcessor processor = myProcessor();
+            JassProcessor processor = GetMyProcessor();
             processor.status = JassProcessor.statusRunning;
             processor.info = processInfo;
             processor.startTime = DateTime.Now;
@@ -3493,7 +3492,7 @@ v(np)  =   ---------------------------------------------------------------------
         public Boolean markProcessEnd(string info, string processInfo)
         {
 
-            JassProcessor processor = myProcessor();
+            JassProcessor processor = GetMyProcessor();
             processor.status = JassProcessor.statusIdleOk;
             processor.update = processInfo;
             processor.endTime = DateTime.Now;
@@ -3506,7 +3505,7 @@ v(np)  =   ---------------------------------------------------------------------
         public Boolean markProcessUpdate(string info, string processInfo)
         {
 
-            JassProcessor processor = myProcessor();
+            JassProcessor processor = GetMyProcessor();
             processor.update = processInfo;
             processor.lastUpdate = DateTime.Now;
             db.Entry(processor).State = System.Data.EntityState.Modified;
@@ -3573,7 +3572,7 @@ v(np)  =   ---------------------------------------------------------------------
                  year = dayLooper.Year;
                  month = dayLooper.Month;
                  day = dayLooper.Day;
-                 string dayString = "year: " + year + " month: " + " day: " + day;
+                 string dayString = "year: " + year + " month: " + month + " day: " + day;
                  markProcessUpdate("inside deriver cycle", dayString);
                         //first open the necessary file with something like process source.
 
