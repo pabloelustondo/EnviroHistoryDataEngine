@@ -24,14 +24,15 @@
     <tr>
          <td>
              @{string urltemp =  @item;
-               int index = urltemp.IndexOf("App_Data\\");
-               string filename = urltemp.Substring(index);
-               string filePath = "/" + filename;
+               int index = urltemp.IndexOf("App_Data\\") + 9;
+               string sfilename = urltemp.Substring(index);
+               string filePath = "/" + sfilename;
                
                }
             <a href="@filePath">@filePath </a>
         </td>
         <td>
+            @Html.ActionLink("Inspect", "ShowDashBoard4DayFromFile", "Blob", new { containerName = ViewBag.containerName, fileName = sfilename }, null)
             @Html.ActionLink("Del", "DeleteFromAppData", new { fileName=item })
         </td>
     </tr>
