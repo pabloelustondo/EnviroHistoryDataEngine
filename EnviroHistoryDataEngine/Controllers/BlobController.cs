@@ -344,16 +344,27 @@ namespace JassWeather.Controllers
 
         public ActionResult UploadAppData()
         {
+
+
             List<string> files = new List<string>();
             try
             {
                 files = apiCaller.listFiles_in_AppData();
 
+                var allowed = apiCaller.markProcessStarts("UploadAppData","uploading data to blob");
+                if (!allowed)
+                {
+                    ViewBag.message = "Cannot Run - Another Process Running";
+                    return View("ShowAppData",files); 
+                }
+                string result;
                 foreach (string filePath in files)
                 {
                     int index = filePath.IndexOf("App_Data\\") + 9;
                     string filename = filePath.Substring(index);
-                    apiCaller.UploadFile2BlobIfNotThere("ftp", filename, filePath);
+                    result = apiCaller.UploadFile2BlobIfNotThere("ftp", filename, filePath);
+
+                    apiCaller.markProcessUpdate("uploaded" + result, filename + result);
                 }
 
             }
@@ -362,7 +373,13 @@ namespace JassWeather.Controllers
                 ViewBag.Message = e.Message;
 
             }
-            return View(files);
+
+            var resultCode = apiCaller.markProcessEnd("UploadAppData", "uploading data to blob COMPLETE");
+            if (!resultCode)
+            {
+                ViewBag.Message = "Something was wrong with files in the File Forlder but maybe processed did run fine? ";
+            }
+            return View("ShowAppData",files);
         }
 
         public ActionResult ShowAppTempFiles()

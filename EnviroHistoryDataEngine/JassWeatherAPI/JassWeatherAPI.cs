@@ -3385,8 +3385,6 @@ v(np)  =   ---------------------------------------------------------------------
             }
 
             return Message; 
-            markProcessEnd("builder", Message);
-   
         }
 
         public class ProcessDeriverModel
@@ -6701,6 +6699,8 @@ v(np)  =   ---------------------------------------------------------------------
                 else {
                     fileNamePrefix = "ftp";
                 }
+                //hack
+                if (fileNamePrefix=="uvb") fileNamePrefix = "ftp";
                 string BlobName = fileName;
 
                 string containerName = fileNamePrefix;
