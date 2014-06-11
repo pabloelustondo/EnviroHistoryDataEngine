@@ -6723,6 +6723,28 @@ v(np)  =   ---------------------------------------------------------------------
 
         }
 
+        public string UploadFile2BlobIfNotThere(string containerName, string fileName, string filePath)
+        {
+            string message = "";
+            Boolean fileOnDisk = File.Exists(filePath);
+            Boolean fileOnBlob = false;
+            Boolean blobAccess = true;
+
+            try { fileOnBlob = checkIfBlobExist("ftp", fileName); }
+            catch (Exception) { blobAccess = false; };
+
+            if (fileOnDisk && !fileOnBlob && blobAccess)
+            {
+                uploadBlob(containerName, fileName, filePath);
+                message += "uploaded:" + fileName;
+            }
+            else
+            {
+                message += "NOTuploaded:" + fileName;
+            }
+            return message;
+        }
+
         public List<string> listNetCDFValues(string fileName)
         {
    

@@ -342,6 +342,29 @@ namespace JassWeather.Controllers
             return View(files);
         }
 
+        public ActionResult UploadAppData()
+        {
+            List<string> files = new List<string>();
+            try
+            {
+                files = apiCaller.listFiles_in_AppData();
+
+                foreach (string filePath in files)
+                {
+                    int index = filePath.IndexOf("App_Data\\") + 9;
+                    string filename = filePath.Substring(index);
+                    apiCaller.UploadFile2BlobIfNotThere("ftp", filename, filePath);
+                }
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = e.Message;
+
+            }
+            return View(files);
+        }
+
         public ActionResult ShowAppTempFiles()
         {
             List<string> files = new List<string>();
