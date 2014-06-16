@@ -394,7 +394,6 @@
     <None Include="Properties\PublishProfiles\envirolytic14.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic15.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic16.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic2 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic2.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic3.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic4.pubxml" />
