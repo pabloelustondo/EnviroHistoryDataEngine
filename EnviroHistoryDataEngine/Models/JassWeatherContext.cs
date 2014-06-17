@@ -46,5 +46,10 @@ namespace JassWeather.Models
 
         public DbSet<JassProcessor> JassProcessors { get; set; }
 
+        public DbSet<JassVariableGroup> JassVariableGroups { get; set; }
+
+        public DbSet<JassVariableGroupRel> JassVariableGroupRels { get; set; }
+
+
     }
 }

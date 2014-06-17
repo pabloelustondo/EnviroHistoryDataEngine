@@ -260,6 +260,8 @@
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\VariableController.cs" />
+    <Compile Include="Controllers\VariableGroupController.cs" />
+    <Compile Include="Controllers\VariableGroupRelController.cs" />
     <Compile Include="Filters\Class1.cs" />
     <Compile Include="JassWeatherAPI\JassWeatherAPI.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
@@ -283,6 +285,14 @@
     <Compile Include="Migrations\201406061500159_processors-fix-2.Designer.cs">
       <DependentUpon>201406061500159_processors-fix-2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201406171628489_variablgroups.cs" />
+    <Compile Include="Migrations\201406171628489_variablgroups.Designer.cs">
+      <DependentUpon>201406171628489_variablgroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201406171638559_variablegrouprelation.cs" />
+    <Compile Include="Migrations\201406171638559_variablegrouprelation.Designer.cs">
+      <DependentUpon>201406171638559_variablegrouprelation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\APIRequest.cs" />
@@ -295,6 +305,8 @@
     <Compile Include="Models\JassFormula.cs" />
     <Compile Include="Models\JassGrid.cs" />
     <Compile Include="Models\JassLatLon.cs" />
+    <Compile Include="Models\JassVariableGroup.cs" />
+    <Compile Include="Models\JassVariableGroupRel.cs" />
     <Compile Include="Models\JassLatLonGroup.cs" />
     <Compile Include="Models\JassProcessor.cs" />
     <Compile Include="Models\JassTask.cs" />
@@ -386,25 +398,18 @@
     <Content Include="App_Files\naps_stations.nc" />
     <Content Include="App_Files\napsNO2_stations.nc" />
     <Content Include="App_Files\Narr_2_NapsNO2_Grid_Mapper.nc" />
+    <None Include="Properties\PublishProfiles\env1.pubxml" />
+    <None Include="Properties\PublishProfiles\env2.pubxml" />
+    <None Include="Properties\PublishProfiles\env3.pubxml" />
+    <None Include="Properties\PublishProfiles\env6.pubxml" />
+    <None Include="Properties\PublishProfiles\env7.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic10.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic11.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic12.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic13.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic14.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic15.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic16.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic2.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytic3.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic4.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic5.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic6.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic7.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic8.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic9.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolyticftp.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolyticmark.pubxml" />
-    <None Include="Properties\PublishProfiles\envirolytictest.pubxml" />
     <None Include="Properties\PublishProfiles\envirolyticzen.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\POC Explanation.png" />
@@ -618,6 +623,16 @@
     <Content Include="Views\Processor\Create.cshtml" />
     <Content Include="Views\Processor\Edit.cshtml" />
     <Content Include="Views\Processor\Delete.cshtml" />
+    <Content Include="Views\VariableGroup\Index.cshtml" />
+    <Content Include="Views\VariableGroup\Details.cshtml" />
+    <Content Include="Views\VariableGroup\Create.cshtml" />
+    <Content Include="Views\VariableGroup\Edit.cshtml" />
+    <Content Include="Views\VariableGroup\Delete.cshtml" />
+    <Content Include="Views\VariableGroupRel\Index.cshtml" />
+    <Content Include="Views\VariableGroupRel\Details.cshtml" />
+    <Content Include="Views\VariableGroupRel\Create.cshtml" />
+    <Content Include="Views\VariableGroupRel\Edit.cshtml" />
+    <Content Include="Views\VariableGroupRel\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
@@ -631,6 +646,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201406061500159_processors-fix-2.resx">
       <DependentUpon>201406061500159_processors-fix-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406171628489_variablgroups.resx">
+      <DependentUpon>201406171628489_variablgroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406171638559_variablegrouprelation.resx">
+      <DependentUpon>201406171638559_variablegrouprelation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

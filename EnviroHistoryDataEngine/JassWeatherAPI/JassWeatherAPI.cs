@@ -6407,9 +6407,15 @@ v(np)  =   ---------------------------------------------------------------------
         #region Dashboard operations
         public static int yearsBackInHistory = 12;
 
-        public List<JassVariableStatus> listVariableStatus()
+        public List<JassVariableStatus> listVariableStatus(int? JassVariableGroupID )
         {
             List<JassVariableStatus> variableStatusList = new List<JassVariableStatus>();
+
+            var variables = db.JassVariables.Select(v=>v.Name.ToLower()).ToList();
+            if (JassVariableGroupID != null) {
+            JassVariableGroup jassvariablegroup = db.JassVariableGroups.Find(JassVariableGroupID);
+            variables = db.JassVariableGroupRels.Where(jvr => jvr.JassVariableGroupID == JassVariableGroupID).Select(jvr => jvr.JassVariable.Name.ToLower()).ToList();
+            }
 
             string connectionString = ConfigurationManager.AppSettings[storageConnectionString];
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
@@ -6422,7 +6428,7 @@ v(np)  =   ---------------------------------------------------------------------
 
             foreach (var container in containers)
             {
-                if (container.Name != "ftp" && container.Name != "trash")
+                if (container.Name != "ftp" && container.Name != "trash" && variables.Contains(container.Name))
                 {
                     variableStatus = new JassVariableStatus(DateTime.Now.Year - yearsBackInHistory, DateTime.Now.Year);
                     variableStatus.ContainerName = container.Name;
