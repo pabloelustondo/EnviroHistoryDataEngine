@@ -3,7 +3,10 @@
     int? CurrentRequestSetId = (int?)Session["CurrentRequestSetId"];
     string CurrentRequestSetName = (string)Session["CurrentRequestSetName"];
     JassUserInfo jassUserInfo = (JassUserInfo)Session["UserInfo"];
-    
+    string VariableGroupName = "N/A";
+    if (jassUserInfo.JassVariableGroup != null){
+        VariableGroupName = jassUserInfo.JassVariableGroup.Name;
+    };
 }
 <a href="/elmah.axd">logs</a>
 @if (Request.IsAuthenticated) {
@@ -12,7 +15,7 @@
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
     
-     <text>VariableGroup: </text> @jassUserInfo.JassVariableGroup.Name;
+     <text>VariableGroup: </text> @VariableGroupName
 
     if(User.IsInRole("Admin") || User.IsInRole("Envirolytic")){
         if (Session["StorageConnectionString"] == "StorageConnectionStringProd"){

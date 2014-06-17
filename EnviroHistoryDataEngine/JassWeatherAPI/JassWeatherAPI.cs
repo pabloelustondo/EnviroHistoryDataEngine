@@ -6401,11 +6401,15 @@ v(np)  =   ---------------------------------------------------------------------
           { jassuserinfo = jassuserinfos[0]; }
           else {
               jassuserinfo = new JassUserInfo();
-              jassuserinfo.JassUserInfoUserName = WebSecurity.CurrentUserName;
-              jassuserinfo.JassLatLonGroupID = db.JassLatLonGroups.FirstOrDefault().JassLatLonGroupID;
-              jassuserinfo.JassVariableGroupID = db.JassVariableGroups.FirstOrDefault().JassVariableGroupID;
-              db.JassUserInfoes.Add(jassuserinfo);
-              db.SaveChanges();                   
+              try
+              {
+                  jassuserinfo.JassUserInfoUserName = WebSecurity.CurrentUserName;
+                  jassuserinfo.JassLatLonGroupID = db.JassLatLonGroups.FirstOrDefault().JassLatLonGroupID;
+                  jassuserinfo.JassVariableGroupID = db.JassVariableGroups.FirstOrDefault().JassVariableGroupID;
+                  db.JassUserInfoes.Add(jassuserinfo);
+                  db.SaveChanges();
+              }
+              catch (Exception) { }
           }
             return jassuserinfo;
         
