@@ -1,0 +1,36 @@
+﻿@model JassWeather.Models.JassUserInfo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>JassUserInfo</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JassUserInfoUserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JassUserInfoUserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JassVariableGroup.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JassVariableGroup.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JassLatLonGroup.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JassLatLonGroup.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.JassUserInfoID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

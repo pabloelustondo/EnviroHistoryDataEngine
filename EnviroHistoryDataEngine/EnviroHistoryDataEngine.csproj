@@ -259,6 +259,7 @@
     <Compile Include="Controllers\ProcessorController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\VariableController.cs" />
     <Compile Include="Controllers\VariableGroupController.cs" />
     <Compile Include="Controllers\VariableGroupRelController.cs" />
@@ -293,6 +294,10 @@
     <Compile Include="Migrations\201406171638559_variablegrouprelation.Designer.cs">
       <DependentUpon>201406171638559_variablegrouprelation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201406171809575_usrinfo.cs" />
+    <Compile Include="Migrations\201406171809575_usrinfo.Designer.cs">
+      <DependentUpon>201406171809575_usrinfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\APIRequest.cs" />
@@ -305,6 +310,7 @@
     <Compile Include="Models\JassFormula.cs" />
     <Compile Include="Models\JassGrid.cs" />
     <Compile Include="Models\JassLatLon.cs" />
+    <Compile Include="Models\JassUserInfo.cs" />
     <Compile Include="Models\JassVariableGroup.cs" />
     <Compile Include="Models\JassVariableGroupRel.cs" />
     <Compile Include="Models\JassLatLonGroup.cs" />
@@ -633,6 +639,11 @@
     <Content Include="Views\VariableGroupRel\Create.cshtml" />
     <Content Include="Views\VariableGroupRel\Edit.cshtml" />
     <Content Include="Views\VariableGroupRel\Delete.cshtml" />
+    <Content Include="Views\UserInfo\Index.cshtml" />
+    <Content Include="Views\UserInfo\Details.cshtml" />
+    <Content Include="Views\UserInfo\Create.cshtml" />
+    <Content Include="Views\UserInfo\Edit.cshtml" />
+    <Content Include="Views\UserInfo\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
@@ -652,6 +663,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201406171638559_variablegrouprelation.resx">
       <DependentUpon>201406171638559_variablegrouprelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406171809575_usrinfo.resx">
+      <DependentUpon>201406171809575_usrinfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

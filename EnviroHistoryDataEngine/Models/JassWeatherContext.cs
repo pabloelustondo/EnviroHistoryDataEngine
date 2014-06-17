@@ -50,6 +50,8 @@ namespace JassWeather.Models
 
         public DbSet<JassVariableGroupRel> JassVariableGroupRels { get; set; }
 
+        public DbSet<JassUserInfo> JassUserInfoes { get; set; }
+
 
     }
 }
