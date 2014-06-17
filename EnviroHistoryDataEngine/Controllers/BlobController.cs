@@ -125,7 +125,7 @@ namespace JassWeather.Controllers
         {
             Session["StorageConnectionString"] = "StorageConnectionStringProd";
             apiCaller = new JassWeatherAPI(ServerName, HttpContext.Server.MapPath("~/App_Data"), (string)Session["StorageConnectionString"]);
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
             return View("ShowDashBoard",variableStatusModel);
         }
 
@@ -133,7 +133,7 @@ namespace JassWeather.Controllers
         {
             Session["StorageConnectionString"] = "StorageConnectionStringDev";
             apiCaller = new JassWeatherAPI(ServerName, HttpContext.Server.MapPath("~/App_Data"), (string)Session["StorageConnectionString"]);
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
             return View(variableStatusModel);
         }
         //Download2Disk
@@ -167,7 +167,7 @@ namespace JassWeather.Controllers
         }
         public ActionResult ShowDashBoard4Year(int yearIndex)  //list container
         {
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
             ViewBag.year = yearIndex + (DateTime.Now.Year - yearsBackInHistory);
             ViewBag.yearIndex = yearIndex;
             return View(variableStatusModel);
@@ -175,7 +175,7 @@ namespace JassWeather.Controllers
 
         public ActionResult ShowDashBoard4Month(int yearIndex, int monthIndex)  //list container
         {
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
             ViewBag.year = yearIndex + (DateTime.Now.Year - yearsBackInHistory);
             ViewBag.yearIndex = yearIndex;
             ViewBag.monthIndex = monthIndex;
@@ -185,7 +185,7 @@ namespace JassWeather.Controllers
 
         public ActionResult ShowDashBoard4Day(string variableName, int yearIndex, int monthIndex, int dayIndex, int stepIndex, int levelIndex)  //list container
         {
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
 
             int year = yearIndex + (DateTime.Now.Year - yearsBackInHistory);
              int month = monthIndex + 1;
@@ -315,14 +315,14 @@ namespace JassWeather.Controllers
 
         public ActionResult ShowDashBoard4DayForm()  //list container
         {
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
             JassWeatherAPI.VariableValueModel Model = new JassWeatherAPI.VariableValueModel();
             return View(Model);
         }
 
         public ActionResult ShowDashBoard4DayForm(JassWeatherAPI.VariableValueModel Model)  //list container
         {
-            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)Session["VariableGroupID"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
             Model.gridValues = apiCaller.GetDayValues(Model.fileName);
             return View(Model);
         }

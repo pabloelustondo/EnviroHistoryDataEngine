@@ -18,6 +18,7 @@ using Microsoft.Research.Science.Data;
 using Microsoft.Research.Science.Data.Imperative;
 using Microsoft.WindowsAzure;
 using System.Web.Helpers;
+using WebMatrix.WebData;
 
 
 namespace JassWeather.Models
@@ -6393,6 +6394,22 @@ v(np)  =   ---------------------------------------------------------------------
             return schemaString + "    performance: " + performance;
         }
 
+        public JassUserInfo GetCurrentUser() {
+         JassUserInfo jassuserinfo;
+          var jassuserinfos = db.JassUserInfoes.Where(ui => ui.JassUserInfoUserName==WebSecurity.CurrentUserName).ToList();
+          if (jassuserinfos.Count > 0)
+          { jassuserinfo = jassuserinfos[0]; }
+          else {
+              jassuserinfo = new JassUserInfo();
+              jassuserinfo.JassUserInfoUserName = WebSecurity.CurrentUserName;
+              jassuserinfo.JassLatLonGroupID = db.JassLatLonGroups.FirstOrDefault().JassLatLonGroupID;
+              jassuserinfo.JassVariableGroupID = db.JassVariableGroups.FirstOrDefault().JassVariableGroupID;
+              db.JassUserInfoes.Add(jassuserinfo);
+              db.SaveChanges();                   
+          }
+            return jassuserinfo;
+        
+        }
 
         public class EnviromentalFact : TableEntity
         {

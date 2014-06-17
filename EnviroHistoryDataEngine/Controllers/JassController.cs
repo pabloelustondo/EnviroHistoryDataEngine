@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace JassWeather.Controllers
 {
@@ -14,6 +15,7 @@ namespace JassWeather.Controllers
 
         public JassWeatherAPI apiCaller;
         public string ServerName;
+        public JassUserInfo jassuserinfo;
         public static Task task;
 
         public JassController()
@@ -22,6 +24,7 @@ namespace JassWeather.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+
 
             string serverNameURL = Request.Url.ToString();
             int dotIndex = serverNameURL.IndexOf(".");
@@ -41,13 +44,14 @@ namespace JassWeather.Controllers
                 Session["LatLonGroupID"] = 1;
             }
 
-            if (Session["VariableGroupID"] == null)
-            {
-                Session["VariableGroupID"] = 1;
-            }
+
 
             storageConnectionString = (string)Session["StorageConnectionString"];
             apiCaller = new JassWeatherAPI(this.ServerName, HttpContext.Server.MapPath("~/App_Data"), storageConnectionString);
+            jassuserinfo = apiCaller.GetCurrentUser();
+
+            Session["UserInfo"] = jassuserinfo;
+
 
             base.OnActionExecuting(filterContext);
         }

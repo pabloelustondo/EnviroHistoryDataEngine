@@ -1,6 +1,9 @@
-﻿@{  
+﻿@using JassWeather.Models
+@{  
     int? CurrentRequestSetId = (int?)Session["CurrentRequestSetId"];
     string CurrentRequestSetName = (string)Session["CurrentRequestSetName"];
+    JassUserInfo jassUserInfo = (JassUserInfo)Session["UserInfo"];
+    
 }
 <a href="/elmah.axd">logs</a>
 @if (Request.IsAuthenticated) {
@@ -8,6 +11,8 @@
         <text>User: </text>@Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })                                                                                                                                                                          
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
+    
+     <text>VariableGroup: </text> @jassUserInfo.JassVariableGroup.Name;
 
     if(User.IsInRole("Admin") || User.IsInRole("Envirolytic")){
         if (Session["StorageConnectionString"] == "StorageConnectionStringProd"){
