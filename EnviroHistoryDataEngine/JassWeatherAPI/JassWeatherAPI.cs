@@ -6406,13 +6406,26 @@ v(np)  =   ---------------------------------------------------------------------
                   jassuserinfo.JassUserInfoUserName = WebSecurity.CurrentUserName;
                   jassuserinfo.JassLatLonGroupID = db.JassLatLonGroups.FirstOrDefault().JassLatLonGroupID;
                   jassuserinfo.JassVariableGroupID = db.JassVariableGroups.FirstOrDefault().JassVariableGroupID;
-                  db.JassUserInfoes.Add(jassuserinfo);
-                  db.SaveChanges();
+                  if (jassuserinfo.JassUserInfoUserName != null && jassuserinfo.JassUserInfoUserName != "")
+                  {
+                      db.JassUserInfoes.Add(jassuserinfo);
+                      db.SaveChanges();
+                  }
               }
               catch (Exception) { }
           }
             return jassuserinfo;
         
+        }
+
+        public JassUserInfo UserInfoSetVariableGroupID(int jassuserinfoID, int JassVariableGroupID)
+        {
+            JassUserInfo jassuserinfo = db.JassUserInfoes.Find(jassuserinfoID);
+            jassuserinfo.JassVariableGroupID = JassVariableGroupID;
+            db.Entry(jassuserinfo).State = System.Data.EntityState.Modified;
+            db.SaveChanges();
+
+            return jassuserinfo;
         }
 
         public class EnviromentalFact : TableEntity

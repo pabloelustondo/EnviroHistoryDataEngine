@@ -7,7 +7,14 @@
     long grandTotal = 0;
     int yearsBackInHistory = JassWeatherAPI.yearsBackInHistory; 
 }
-
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+        <div class="editor-field">
+            @Html.DropDownList("JassVariableGroupID", String.Empty)
+            <input type="submit" value="Change Variables Filter" />
+        </div>          
+}
 <style>
     .green {background-color: lightgreen}
     .yellow {background-color: lightyellow}

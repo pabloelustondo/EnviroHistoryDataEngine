@@ -126,7 +126,36 @@ namespace JassWeather.Controllers
             Session["StorageConnectionString"] = "StorageConnectionStringProd";
             apiCaller = new JassWeatherAPI(ServerName, HttpContext.Server.MapPath("~/App_Data"), (string)Session["StorageConnectionString"]);
             List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
+
+            #region select Variable Group
+
+            var userInfo = apiCaller.GetCurrentUser();
+            ViewBag.VariableGroupID = userInfo.JassVariableGroupID;
+            int VariableGroupID = (int)ViewBag.VariableGroupID;
+            var variableGroups = db.JassVariableGroups.ToList();
+            ViewBag.JassVariableGroupID = new SelectList(variableGroups, "JassVariableGroupID", "Name", userInfo.JassVariableGroupID);
+            #endregion 
+            
             return View("ShowDashBoard",variableStatusModel);
+        }
+        [HttpPost]
+        public ActionResult ShowDashBoardExt(string JassVariableGroupID)  //list container
+        {
+            #region select Variable Group
+
+            jassuserinfo = apiCaller.UserInfoSetVariableGroupID(jassuserinfo.JassUserInfoID, Convert.ToInt16(JassVariableGroupID));
+            var variableGroups = db.JassVariableGroups.ToList();
+            ViewBag.JassVariableGroupID = new SelectList(variableGroups, "JassVariableGroupID", "Name", jassuserinfo.JassVariableGroupID);
+            #endregion
+
+
+            Session["StorageConnectionString"] = "StorageConnectionStringProd";
+            apiCaller = new JassWeatherAPI(ServerName, HttpContext.Server.MapPath("~/App_Data"), (string)Session["StorageConnectionString"]);
+            List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
+
+
+
+            return View("ShowDashBoard", variableStatusModel);
         }
 
         public ActionResult ShowDashBoard()  //list container
@@ -134,6 +163,16 @@ namespace JassWeather.Controllers
             Session["StorageConnectionString"] = "StorageConnectionStringDev";
             apiCaller = new JassWeatherAPI(ServerName, HttpContext.Server.MapPath("~/App_Data"), (string)Session["StorageConnectionString"]);
             List<JassVariableStatus> variableStatusModel = apiCaller.listVariableStatus((int?)jassuserinfo.JassVariableGroupID);
+
+            #region select Variable Group
+
+            var userInfo = apiCaller.GetCurrentUser();
+            ViewBag.VariableGroupID = userInfo.JassVariableGroupID;
+            int VariableGroupID = (int)ViewBag.VariableGroupID;
+            var variableGroups = db.JassVariableGroups.ToList();
+            ViewBag.JassVariableID = new SelectList(variableGroups, "JassVariableGroupID", "Name");
+            #endregion 
+
             return View(variableStatusModel);
         }
         //Download2Disk
