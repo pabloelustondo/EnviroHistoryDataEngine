@@ -18,7 +18,28 @@ namespace JassWeather.Controllers
 
         public ActionResult Index()
         {
-            return View(db.JassProcessors.ToList());
+            var processors = db.JassProcessors.ToList();
+            DateTime now = DateTime.Now;
+            
+            foreach (var procesor in processors) {
+                int minutes_idle = Convert.ToInt16((now - procesor.lastUpdate).TotalMinutes);
+                if (minutes_idle > 5 && minutes_idle <= 60)
+                {
+                    procesor.status = "idle_for_" + minutes_idle + " mins";
+                }
+
+                if (minutes_idle > 60)
+                {
+                    procesor.status = "idle_too_long";
+                }
+            
+            }
+            List<JassProcessor> orderedProcessors = new List<JassProcessor>();
+
+            foreach (var procesor in processors) { if (procesor.status == "running") orderedProcessors.Add(procesor); }
+            foreach (var procesor in processors) { if (procesor.status != "running") orderedProcessors.Add(procesor); }
+
+            return View(orderedProcessors);
         }
 
         //
