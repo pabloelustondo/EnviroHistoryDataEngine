@@ -5018,7 +5018,7 @@ v(np)  =   ---------------------------------------------------------------------
 
             string errors = "";
             int numberofbadlines = 0;
-
+            string[] header = allNapsStationsLines[0].Split('\t');
             for (int l = 0; l < allNapsStationsLines.Length - 1; l++)
             {
                 string[] line = allNapsStationsLines[l + 1].Split('\t');
@@ -5028,6 +5028,10 @@ v(np)  =   ---------------------------------------------------------------------
                     if (pollutant == "NO2")
                     {
                         validStation = (line[18].Trim() == "X");
+                    }
+                    if (pollutant == "O3")
+                    {
+                        validStation = (line[21].Trim() == "X");
                     }
                     if (validStation)
                     {
