@@ -20,35 +20,52 @@
        
     if (Model.fileMapper.Contains("MACC") ){
     gridName = "MACC" ; 
-    locationY = (Model.JassLatLon != null && Model.JassLatLon.maccY != null) ? (int)Model.JassLatLon.maccY : 133;
-    locationX = (Model.JassLatLon != null && Model.JassLatLon.maccX != null) ? (int)Model.JassLatLon.maccX : 241;
-    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+    locationY = (Model.JassLatLon != null && Model.JassLatLon.maccY != null) ? (int)Model.JassLatLon.maccY : 0;
+    locationX = (Model.JassLatLon != null && Model.JassLatLon.maccX != null) ? (int)Model.JassLatLon.maccX : 0;
+    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "n/a";
     }
 
     if (Model.fileMapper.Contains("CFSR") ){
          gridName = "CFSR" ; 
-    locationY = (Model.JassLatLon != null && Model.JassLatLon.cfsrY != null) ? (int)Model.JassLatLon.cfsrY : 133;
-    locationX = (Model.JassLatLon != null && Model.JassLatLon.cfsrX != null) ? (int)Model.JassLatLon.cfsrX : 241;
-    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+    locationY = (Model.JassLatLon != null && Model.JassLatLon.cfsrY != null) ? (int)Model.JassLatLon.cfsrY : 0;
+    locationX = (Model.JassLatLon != null && Model.JassLatLon.cfsrX != null) ? (int)Model.JassLatLon.cfsrX : 0;
+    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "n/a";
     }
     
     if (Model.fileMapper.Contains("SHER") ){
            gridName = "SHER" ; 
-    locationY = (Model.JassLatLon != null && Model.JassLatLon.sherY != null) ? (int)Model.JassLatLon.sherY : 133;
-    locationX = (Model.JassLatLon != null && Model.JassLatLon.sherX != null) ? (int)Model.JassLatLon.sherX : 241;
-    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+    locationY = (Model.JassLatLon != null && Model.JassLatLon.sherY != null) ? (int)Model.JassLatLon.sherY : 0;
+    locationX = (Model.JassLatLon != null && Model.JassLatLon.sherX != null) ? (int)Model.JassLatLon.sherX : 0;
+    locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "n/a";
         oneDimensionalGrid = true;
     }
 
-    if (Model.fileMapper.Contains("NAPS"))
+    if (Model.fileMapper.Contains("NAPSNO2"))
     {
         gridName = "NAPS";
-        locationY = (Model.JassLatLon != null && Model.JassLatLon.sherY != null) ? (int)Model.JassLatLon.sherY : 133;
-        locationX = (Model.JassLatLon != null && Model.JassLatLon.sherX != null) ? (int)Model.JassLatLon.sherX : 241;
-        locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "Toronto";
+        locationY = (Model.JassLatLon != null && Model.JassLatLon.napsNO2Y != null) ? (int)Model.JassLatLon.napsNO2Y : 0;
+        locationX = (Model.JassLatLon != null && Model.JassLatLon.napsNO2X != null) ? (int)Model.JassLatLon.napsNO2X : 0;
+        locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "n/a";
         oneDimensionalGrid = true;
     }
+
     
+   if (Model.fileMapper.Contains("NAPSO3"))
+    {
+        gridName = "NAPS";
+        locationY = (Model.JassLatLon != null && Model.JassLatLon.napsO3Y != null) ? (int)Model.JassLatLon.napsO3Y : 0;
+        locationX = (Model.JassLatLon != null && Model.JassLatLon.napsO3X != null) ? (int)Model.JassLatLon.napsO3X : 0;
+        locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "n/a";
+        oneDimensionalGrid = true;
+    }
+   if (Model.fileMapper.Contains("NAPSPM25"))
+   {
+       gridName = "NAPS";
+       locationY = (Model.JassLatLon != null && Model.JassLatLon.napsNO2Y != null) ? (int)Model.JassLatLon.napsNO2Y : 0;
+       locationX = (Model.JassLatLon != null && Model.JassLatLon.napsNO2X != null) ? (int)Model.JassLatLon.napsNO2X : 0;
+       locationName = (Model.JassLatLon != null && Model.JassLatLon.Name != null) ? Model.JassLatLon.Name : "n/a";
+       oneDimensionalGrid = true;
+   } 
     }
 
 <h2>Showing Grid @gridName with highlights on location @locationName at y:@locationY  x:@locationX</h2>

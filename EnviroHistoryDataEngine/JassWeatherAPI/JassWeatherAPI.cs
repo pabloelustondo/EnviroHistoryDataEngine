@@ -1686,17 +1686,26 @@ namespace JassWeather.Models
                      */
 
 
-                    outputDataSet.Add<double[]>("time", NapsNarrTime, "time");
-                    //foreach (var attr in narrVars["time"]) { if (attr.Key != "Name") outputDataSet.PutAttr("time", attr.Key, attr.Value); }
-                    outputDataSet.Add<Single[]>("y", narrY, "y");
-                    foreach (var attr in narrVars["y"]) { if (attr.Key != "Name") outputDataSet.PutAttr("y", attr.Key, attr.Value); }
-                    outputDataSet.Add<Single[]>("x", narrX, "x");
-                    foreach (var attr in narrVars["y"]) { if (attr.Key != "Name") outputDataSet.PutAttr("x", attr.Key, attr.Value); }
-                    outputDataSet.Add<Int16[, ,]>(VariableName, outputVariable, "time", "y", "x");
+                    try
+                    {
+                        outputDataSet.Add<double[]>("time", NapsNarrTime, "time");
+                        //foreach (var attr in narrVars["time"]) { if (attr.Key != "Name") outputDataSet.PutAttr("time", attr.Key, attr.Value); }
+                        outputDataSet.Add<Single[]>("y", narrY, "y");
+                        foreach (var attr in narrVars["y"]) { if (attr.Key != "Name") outputDataSet.PutAttr("y", attr.Key, attr.Value); }
+                        outputDataSet.Add<Single[]>("x", narrX, "x");
+                        foreach (var attr in narrVars["x"]) { if (attr.Key != "Name") outputDataSet.PutAttr("x", attr.Key, attr.Value); }
+                        outputDataSet.Add<Int16[, ,]>(VariableName, outputVariable, "time", "y", "x");
 
-                    outputDataSet.PutAttr(VariableName, "FillValue", fillValue);
-                    outputDataSet.PutAttr(VariableName, "MissingValue", missingValue);
-                    outputDataSet.PutAttr(VariableName, "StepsPerDay", 24);
+                        outputDataSet.PutAttr(VariableName, "FillValue", fillValue);
+                        outputDataSet.PutAttr(VariableName, "MissingValue", missingValue);
+                        outputDataSet.PutAttr(VariableName, "StepsPerDay", 24);
+                    }
+                    catch (Exception e)
+                    {
+                        var exp = e;
+                        LogError("processGridMapping error while isaving the file", exp.Message);
+                        throw;
+                    }
 
                 }
 
@@ -2435,6 +2444,32 @@ v(np)  =   ---------------------------------------------------------------------
             latlon.napsNO2X = napsNO2MapLonX[(int)latlon.narrY, (int)latlon.narrX];
             latlon.napsNO2Lat = (napsNO2Lat[(int)latlon.napsNO2Y] < 180) ? napsNO2Lat[(int)latlon.napsNO2Y] : napsNO2Lat[(int)latlon.napsNO2Y] - 360;
             latlon.napsNO2Lon = (napsNO2Lon[(int)latlon.napsNO2X] < 180) ? napsNO2Lon[(int)latlon.napsNO2X] : napsNO2Lon[(int)latlon.napsNO2X] - 360;
+
+            #endregion 
+
+            #region napsO3Mapper
+
+            string napsO3File = AppFilesFolder + "\\Narr_2_napsO3_Grid_Mapper.nc";
+
+            double[,] napsO3MapDistance;
+            int[,] napsO3MapLatY;
+            int[,] napsO3MapLonX;
+            Single[] napsO3Lat;
+            Single[] napsO3Lon;
+
+            using (var napsO3MapperDataSet = DataSet.Open(napsO3File + "?openMode=open"))
+            {
+                napsO3MapDistance = napsO3MapperDataSet.GetData<double[,]>("mapDistance");
+                napsO3MapLatY = napsO3MapperDataSet.GetData<int[,]>("mapLatY");
+                napsO3MapLonX = napsO3MapperDataSet.GetData<int[,]>("mapLonX");
+                napsO3Lat = napsO3MapperDataSet.GetData<Single[]>("maccLat");
+                napsO3Lon = napsO3MapperDataSet.GetData<Single[]>("maccLon");
+            }
+
+            latlon.napsO3Y = napsO3MapLatY[(int)latlon.narrY, (int)latlon.narrX];
+            latlon.napsO3X = napsO3MapLonX[(int)latlon.narrY, (int)latlon.narrX];
+            latlon.napsO3Lat = (napsO3Lat[(int)latlon.napsO3Y] < 180) ? napsO3Lat[(int)latlon.napsO3Y] : napsO3Lat[(int)latlon.napsO3Y] - 360;
+            latlon.napsO3Lon = (napsO3Lon[(int)latlon.napsO3X] < 180) ? napsO3Lon[(int)latlon.napsO3X] : napsO3Lon[(int)latlon.napsO3X] - 360;
 
             #endregion 
 /*
