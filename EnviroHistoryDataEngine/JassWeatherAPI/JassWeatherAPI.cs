@@ -249,69 +249,100 @@ namespace JassWeather.Models
             //unless overWrite is set of true which means that it will preprocess anyway.
 
             //Check whether the file is on disk
+                string fileName;
+                string filePath="";
 
                 APIRequest source = builder.APIRequest;
-                string url = replaceURIPlaceHolders(source.url, year, month,weeky,day);
+                string[] urls = source.url.Split(',');
 
-                string fileName = safeFileNameFromUrl(url);
-                string filePath = AppDataFolder + "/" + fileName;
-                Boolean fileOnDisk = File.Exists(filePath);
-
-                //check if the file is on storage
-
-                Boolean fileOnBlob = false;
-                Boolean blobAccess = true;
-
-                try { fileOnBlob = checkIfBlobExist("ftp", fileName); }
-                catch (Exception) { blobAccess = false; };
-
-                string LogMessage = "fileOnBlob: " + fileOnBlob + "fileOnDisk: " + fileOnDisk;
-                DateTime processSourceStartime = DateTime.Now;
-                JassBuilderLog childBuilderLog1 = createBuilderLogChild(builderAllLog, builder, year, month, "processSource_AfterCheck", "Test", LogMessage, new TimeSpan(), true);
-
-                string message="";
-
-                if (!fileOnDisk)
+                for (int i = 0; i < urls.Length; i++)
                 {
 
-                    //check if the file is on blob storage
-                    if (fileOnBlob)
-                    {
-                        DownloadFile2DiskIfNotThere(fileName, filePath);
-                    }
-                    else
-                    {
-                        //This is the case where we have to really download the file form the actual source
-                        //For the moment I am assuming that this is FTP-netCDF... 
+                    string url = replaceURIPlaceHolders(urls[i], year, month, weeky, day);
 
-                        if (builder.APIRequest.type == "FTP-netCDF")
+                    fileName = safeFileNameFromUrl(url);
+                    filePath = AppDataFolder + "/" + fileName;
+                    Boolean fileOnDisk = File.Exists(filePath);
+
+                    //check if the file is on storage
+
+                    Boolean fileOnBlob = false;
+                    Boolean blobAccess = true;
+
+                    try { fileOnBlob = checkIfBlobExist("ftp", fileName); }
+                    catch (Exception) { blobAccess = false; };
+
+                    string LogMessage = "fileOnBlob: " + fileOnBlob + "fileOnDisk: " + fileOnDisk;
+                    DateTime processSourceStartime = DateTime.Now;
+                    JassBuilderLog childBuilderLog1 = createBuilderLogChild(builderAllLog, builder, year, month, "processSource_AfterCheck", "Test", LogMessage, new TimeSpan(), true);
+
+                    string message = "";
+
+                    if (!fileOnDisk)
+                    {
+
+                        //check if the file is on blob storage
+                        if (fileOnBlob)
                         {
-                            message = get_big_NetCDF_by_ftp2(url, AppDataFolder);
-                        } 
-                        else 
-                        if (builder.APIRequest.type == "HTTP-netCDF")
-                        {
-                            message =get_big_NetCDF_by_http2(url, AppDataFolder);
+                            DownloadFile2DiskIfNotThere(fileName, filePath);
                         }
                         else
                         {
-                            //we have a problem here we could not find the file
-                           createBuilderLogChild(builderAllLog, builder, year, month, "processSource_FILE NOT FOUND CANNOT DOWNLOAD", "Test", LogMessage, new TimeSpan(), true);
-                           throw new Exception("FILE NOT FOUND CANNOT DOWNLOAD: " + fileName + "  " + message);
+                            //This is the case where we have to really download the file form the actual source
+                            //For the moment I am assuming that this is FTP-netCDF... 
+
+                            if (builder.APIRequest.type == "FTP-netCDF")
+                            {
+                                message = get_big_NetCDF_by_ftp2(url, AppDataFolder);
+                            }
+                            else
+                                if (builder.APIRequest.type == "HTTP-netCDF")
+                                {
+                                    message = get_big_NetCDF_by_http2(url, AppDataFolder);
+                                }
+                                else
+                                {
+                                    //we have a problem here we could not find the file
+                                    createBuilderLogChild(builderAllLog, builder, year, month, "processSource_FILE NOT FOUND CANNOT DOWNLOAD", "Test", LogMessage, new TimeSpan(), true);
+                                    throw new Exception("FILE NOT FOUND CANNOT DOWNLOAD: " + fileName + "  " + message);
+                                }
+
                         }
-
                     }
+
+                    //so, here we know the file is on dis for sure (unless there is an error)
+                    if (upload && blobAccess && !fileOnBlob)
+                    {
+                        uploadBlob("ftp", fileName, filePath);
+                    }
+
+                    JassBuilderLog childBuilderLog2 = createBuilderLogChild(builderAllLog, builder, year, month, "processSource_End", "Test", LogMessage, DateTime.Now - processSourceStartime, true);
+                    
                 }
 
-                //so, here we know the file is on dis for sure (unless there is an error)
-                if (upload && blobAccess && !fileOnBlob)
+            string finalFilePath = filePath;
+
+            if (urls.Length > 1)
+            {//we asume files are text and we are going to merge... this is a hacking feature to deal with various files in case of PM25 Air Quality
+                string[] fileContent;    
+                string url = replaceURIPlaceHolders(urls[0], year, month, weeky, day);
+                fileName = safeFileNameFromUrl(url);
+                finalFilePath = AppDataFolder + "/" + "merge" + fileName;
+                if (File.Exists(finalFilePath)) { File.Delete(finalFilePath); };
+
+
+
+                for (int f = 0; f < urls.Length; f++)
                 {
-                    uploadBlob("ftp", fileName, filePath);
+                    url = replaceURIPlaceHolders(urls[f], year, month, weeky, day);
+                    fileName = safeFileNameFromUrl(url);
+                    filePath = AppDataFolder + "/" + fileName;
+                    fileContent = File.ReadAllLines(filePath);
+                    File.AppendAllLines(finalFilePath, fileContent);
                 }
 
-                JassBuilderLog childBuilderLog2 = createBuilderLogChild(builderAllLog, builder, year, month, "processSource_End", "Test", LogMessage, DateTime.Now - processSourceStartime, true);
-
-            return filePath; 
+            }
+            return finalFilePath; 
         }
 
         public static double HaversineDistance(double firstLat, double firstLong, double secondLat, double secondLong)
