@@ -2472,6 +2472,32 @@ v(np)  =   ---------------------------------------------------------------------
             latlon.napsO3Lon = (napsO3Lon[(int)latlon.napsO3X] < 180) ? napsO3Lon[(int)latlon.napsO3X] : napsO3Lon[(int)latlon.napsO3X] - 360;
 
             #endregion 
+
+            #region napsPM25Mapper
+
+            string napsPM25File = AppFilesFolder + "\\Narr_2_napsPM25_Grid_Mapper.nc";
+
+            double[,] napsPM25MapDistance;
+            int[,] napsPM25MapLatY;
+            int[,] napsPM25MapLonX;
+            Single[] napsPM25Lat;
+            Single[] napsPM25Lon;
+
+            using (var napsPM25MapperDataSet = DataSet.Open(napsPM25File + "?openMode=open"))
+            {
+                napsPM25MapDistance = napsPM25MapperDataSet.GetData<double[,]>("mapDistance");
+                napsPM25MapLatY = napsPM25MapperDataSet.GetData<int[,]>("mapLatY");
+                napsPM25MapLonX = napsPM25MapperDataSet.GetData<int[,]>("mapLonX");
+                napsPM25Lat = napsPM25MapperDataSet.GetData<Single[]>("maccLat");
+                napsPM25Lon = napsPM25MapperDataSet.GetData<Single[]>("maccLon");
+            }
+
+            latlon.napsPM25Y = napsPM25MapLatY[(int)latlon.narrY, (int)latlon.narrX];
+            latlon.napsPM25X = napsPM25MapLonX[(int)latlon.narrY, (int)latlon.narrX];
+            latlon.napsPM25Lat = (napsPM25Lat[(int)latlon.napsPM25Y] < 180) ? napsPM25Lat[(int)latlon.napsPM25Y] : napsPM25Lat[(int)latlon.napsPM25Y] - 360;
+            latlon.napsPM25Lon = (napsPM25Lon[(int)latlon.napsPM25X] < 180) ? napsPM25Lon[(int)latlon.napsPM25X] : napsPM25Lon[(int)latlon.napsPM25X] - 360;
+
+            #endregion 
 /*
             #region napsO3Mapper
 
@@ -5067,6 +5093,15 @@ v(np)  =   ---------------------------------------------------------------------
                     if (pollutant == "O3")
                     {
                         validStation = (line[21].Trim() == "X");
+                    }
+                    if (pollutant == "PM25")
+                    {
+                        validStation = (line[23].Trim() == "X") || //PM_25_015_continuous
+                                       (line[24].Trim() == "X") || //PM_25_017_dryer
+                                       (line[25].Trim() == "X") || //PM_25_018_BAM_RH45
+                                       (line[29].Trim() == "X") || //PM_25_022__FDMS
+                                       (line[33].Trim() == "X") || //PM_25_030_BAM_RH3
+                                       (line[35].Trim() == "X");   //PM_25_032_SHARP
                     }
                     if (validStation)
                     {
