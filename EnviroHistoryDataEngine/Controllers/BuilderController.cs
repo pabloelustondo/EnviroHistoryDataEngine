@@ -267,6 +267,41 @@ namespace JassWeather.Controllers
             return View(jassbuilder);
         }
 
+        public ActionResult EditAndRun(int id = 0)
+        {
+            JassBuilder jassbuilder = db.JassBuilders.Find(id);
+            if (jassbuilder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.JassVariableID = new SelectList(db.JassVariables, "JassVariableID", "Name", jassbuilder.JassVariableID);
+            ViewBag.JassGridID = new SelectList(db.JassGrids, "JassGridID", "Name", jassbuilder.JassGridID);
+            ViewBag.APIRequestId = new SelectList(db.APIRequests, "Id", "url", jassbuilder.APIRequestId);
+            return View(jassbuilder);
+        }
+
+        //
+        // POST: /Builder/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAndRun(JassBuilder jassbuilder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(jassbuilder).State = EntityState.Modified;
+                db.SaveChanges();
+                var result = apiCaller.processBuilderAll(jassbuilder, true, true);
+                return RedirectToAction("Index");
+            }
+            ViewBag.JassVariableID = new SelectList(db.JassVariables, "JassVariableID", "Name", jassbuilder.JassVariableID);
+            ViewBag.JassGridID = new SelectList(db.JassGrids, "JassGridID", "Name", jassbuilder.JassGridID);
+            ViewBag.APIRequestId = new SelectList(db.APIRequests, "Id", "url", jassbuilder.APIRequestId);
+            return View(jassbuilder);
+        }
+
+
+
         //
         // GET: /Builder/Delete/5
 

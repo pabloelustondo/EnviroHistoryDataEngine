@@ -652,6 +652,7 @@
     <Content Include="Views\UserInfo\Delete.cshtml" />
     <Content Include="Views\Grid\SaveNapsO3LatLon.cshtml" />
     <Content Include="Views\Grid\SaveNapsPM25LatLon.cshtml" />
+    <Content Include="Views\Builder\EditAndRun.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />

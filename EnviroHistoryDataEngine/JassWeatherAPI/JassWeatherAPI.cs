@@ -4204,6 +4204,22 @@ v(np)  =   ---------------------------------------------------------------------
                 return  Convert.ToSingle(windChill);
             }
 
+            if (deriver.JassFormula.Name == "AirQualityIndex")
+            {
+                //= (1000/10.4) x [ (e(0.000537 x O3) - 1) + (e(0.000871 x NO2) - 1) + (e(0.000487 x PM25) - 1)   ]
+
+                var O3 = x1;  
+                var NO2 = x2; 
+                var PM25 = x3; 
+
+                var eO3 = Math.Exp(0.00537 * O3) -1;
+                var eNO2 = Math.Exp(0.00871 * NO2) -1;
+                var ePM25 = Math.Exp(0.00487 * O3) -1; 
+              
+                var airQualityIndex = (1000/10.4)*(eO3 + eNO2 + ePM25);
+                return Convert.ToSingle(airQualityIndex);
+            }
+
             if (deriver.JassFormula.Name == "WindSpeed")
             {
                 var windUSpeed = x1;  //meter/sec
