@@ -169,7 +169,12 @@ namespace JassWeather.Models
 
                         for (int v = 0; v < gridValues[d][l].Count; v++)
                         {
-                            tableLine = tableLine + "," + gridValues[d][l][v].measure[step,0,0,0];
+                            if (gridValues[d][l][v].VariableName.Contains("Air")){
+                            tableLine = tableLine + "," + gridValues[d][l][v].measure[t,0,0,0];
+                            } else {
+                            tableLine = tableLine + "," + gridValues[d][l][v].measure[step,0,0,0];                                  
+                            }
+
                         }
 
                         file.WriteLine(tableLine);
@@ -4212,9 +4217,9 @@ v(np)  =   ---------------------------------------------------------------------
                 var NO2 = x2; 
                 var PM25 = x3; 
 
-                var eO3 = Math.Exp(0.00537 * O3) -1;
-                var eNO2 = Math.Exp(0.00871 * NO2) -1;
-                var ePM25 = Math.Exp(0.00487 * O3) -1; 
+                var eO3 = Math.Exp(0.000537 * O3) -1;
+                var eNO2 = Math.Exp(0.000871 * NO2) -1;
+                var ePM25 = Math.Exp(0.000487 * O3) -1; 
               
                 var airQualityIndex = (1000/10.4)*(eO3 + eNO2 + ePM25);
                 return Convert.ToSingle(airQualityIndex);

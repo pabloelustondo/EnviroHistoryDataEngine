@@ -291,7 +291,11 @@ namespace JassWeather.Controllers
             {
                 db.Entry(jassbuilder).State = EntityState.Modified;
                 db.SaveChanges();
-                var result = apiCaller.processBuilderAll(jassbuilder, true, true);
+                var jassbuilder2 = db.JassBuilders.Find(jassbuilder.JassBuilderID);
+                jassbuilder2.JassVariable = db.JassVariables.Find(jassbuilder2.JassVariableID);
+                jassbuilder2.JassGrid = db.JassGrids.Find(jassbuilder2.JassGridID);
+                jassbuilder2.APIRequest = db.APIRequests.Find(jassbuilder2.APIRequestId);
+                var result = apiCaller.processBuilderAll(jassbuilder2, true, true);
                 return RedirectToAction("Index");
             }
             ViewBag.JassVariableID = new SelectList(db.JassVariables, "JassVariableID", "Name", jassbuilder.JassVariableID);
