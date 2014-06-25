@@ -4031,7 +4031,11 @@ v(np)  =   ---------------------------------------------------------------------
                                                       x5Value[h] = x5Meta.add_offset + x5Meta.scale_factor * x5Values[h][t, y, x];
                                                  }
                                              }
+                                             if (y == 133 && x == 241)
+                                             {
+                                                 var hack = 1;
 
+                                             }
                                              resultValue = processFormula(deriver, x1Value, x2Value, x3Value, x4Value, x4Value2, x5Value);
                                          }
                                          else
@@ -4219,7 +4223,7 @@ v(np)  =   ---------------------------------------------------------------------
 
                 var eO3 = Math.Exp(0.000537 * O3) -1;
                 var eNO2 = Math.Exp(0.000871 * NO2) -1;
-                var ePM25 = Math.Exp(0.000487 * O3) -1; 
+                var ePM25 = Math.Exp(0.000487 * PM25) -1; 
               
                 var airQualityIndex = (1000/10.4)*(eO3 + eNO2 + ePM25);
                 return Convert.ToSingle(airQualityIndex);

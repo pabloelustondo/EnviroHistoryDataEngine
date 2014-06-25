@@ -413,6 +413,7 @@
     <None Include="Properties\PublishProfiles\env2.pubxml" />
     <None Include="Properties\PublishProfiles\env3.pubxml" />
     <None Include="Properties\PublishProfiles\env6.pubxml" />
+    <None Include="Properties\PublishProfiles\env7 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\env7.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic.pubxml" />
     <None Include="Properties\PublishProfiles\envirolytic4.pubxml" />
