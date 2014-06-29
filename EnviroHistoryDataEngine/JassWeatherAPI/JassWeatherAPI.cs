@@ -309,16 +309,21 @@ namespace JassWeather.Models
                                 {
                                     //we have a problem here we could not find the file
                                     createBuilderLogChild(builderAllLog, builder, year, month, "processSource_FILE NOT FOUND CANNOT DOWNLOAD", "Test", LogMessage, new TimeSpan(), true);
-                                    throw new Exception("FILE NOT FOUND CANNOT DOWNLOAD: " + fileName + "  " + message);
+                                  //  throw new Exception("FILE NOT FOUND CANNOT DOWNLOAD: " + fileName + "  " + message);
                                 }
-
                         }
                     }
 
                     //so, here we know the file is on dis for sure (unless there is an error)
                     if (upload && blobAccess && !fileOnBlob)
                     {
-                        uploadBlob("ftp", fileName, filePath);
+                        try
+                        {
+                            uploadBlob("ftp", fileName, filePath);
+                        }
+                        catch (Exception e) {
+                            createBuilderLogChild(builderAllLog, builder, year, month, "processSource_FILE NOT FOUND CANNOT UPLOAD", "Test", e.Message, new TimeSpan(), true);                        
+                        }
                     }
 
                     JassBuilderLog childBuilderLog2 = createBuilderLogChild(builderAllLog, builder, year, month, "processSource_End", "Test", LogMessage, DateTime.Now - processSourceStartime, true);
@@ -342,8 +347,14 @@ namespace JassWeather.Models
                     url = replaceURIPlaceHolders(urls[f], year, month, weeky, day);
                     fileName = safeFileNameFromUrl(url);
                     filePath = AppDataFolder + "/" + fileName;
-                    fileContent = File.ReadAllLines(filePath);
-                    File.AppendAllLines(finalFilePath, fileContent);
+                    try
+                    {
+                        fileContent = File.ReadAllLines(filePath);
+                        File.AppendAllLines(finalFilePath, fileContent);
+                    }
+                    catch (Exception e) {
+                        LogError("processing source cannot load one source", e.Message);
+                    }
                 }
 
             }
@@ -2276,6 +2287,7 @@ v(np)  =   ---------------------------------------------------------------------
                 var napclosest = gc.map[y, x].lat;
 
             }
+            missValue = 32767;
             /*
              *  
               v(mp1) / d(np, mp1)  + v(mp2) / d(np, mp2) + v(mp3) / d(np, mp3)        
@@ -2285,40 +2297,41 @@ v(np)  =   ---------------------------------------------------------------------
             Int16 v_mp1 = missValue, v_mp2 = missValue, v_mp3 = missValue, v_mp4 = missValue;
             double d_np_mp1 = 10000, d_np_mp2 = 10000, d_np_mp3 = 10000, d_np_mp4 = 10000;
             int go1 = 0, go2 = 0, go3 = 0, go4 = 0;
-            Int16 napsMissvalue = -999;
+            Int16 napsMissvalue = 9999;
 
             if (gc.map[y, x] != null ){
                 v_mp1 = napsValues[t, gc.map[y, x].lat];
                 d_np_mp1 = gc.map[y, x].distance;
-                go1 = (v_mp1 == missValue || v_mp1 == fillValue || v_mp1 == napsMissvalue) ? 0 : 1;
+                go1 = (d_np_mp1 > 20 || v_mp1 == missValue || v_mp1 == fillValue || v_mp1 == napsMissvalue) ? 0 : 1;
             }
 
             if (gc.map2[y, x] != null )
             {
                 v_mp2 = napsValues[t, gc.map2[y, x].lat];
                 d_np_mp2 = gc.map2[y, x].distance;
-                go2 = (v_mp2 == missValue || v_mp2 == fillValue || v_mp2 == napsMissvalue) ? 0 : 1;
+                go2 = (d_np_mp2 > 20 || v_mp2 == missValue || v_mp2 == fillValue || v_mp2 == napsMissvalue) ? 0 : 1;
             }
 
             if (gc.map3[y, x] != null )
             {
                 v_mp3 = napsValues[t, gc.map3[y, x].lat];
                 d_np_mp3 = gc.map3[y, x].distance;
-                go3 = (v_mp3 == missValue || v_mp3 == fillValue || v_mp3 == napsMissvalue) ? 0 : 1;
+                go3 = (d_np_mp3 > 20 || v_mp3 == missValue || v_mp3 == fillValue || v_mp3 == napsMissvalue) ? 0 : 1;
             }
 
             if (gc.map4[y, x] != null )
             {
                 v_mp4 = napsValues[t, gc.map4[y, x].lat];
                 d_np_mp4 = gc.map4[y, x].distance;
-                go4 = (v_mp4 == missValue || v_mp4 == fillValue || v_mp4 == napsMissvalue) ? 0 : 1;
+                go4 = (d_np_mp4 > 20 || v_mp4 == missValue || v_mp4 == fillValue || v_mp4 == napsMissvalue) ? 0 : 1;
             }
             double value = missValue;
             if ((go1 + go2 + go3 + go4) > 0)
             {
-                if (d_np_mp1 < 1)
-
-                { value = v_mp1; }
+                if (go4 == 1 && (d_np_mp4 < 1)) { value = v_mp4; }
+                if (go3 == 1 && (d_np_mp3 < 1)) { value = v_mp3; }
+                if (go2 == 1 && (d_np_mp2 < 1)) { value = v_mp2; }
+                if (go1==1 && (d_np_mp1 < 1))   { value = v_mp1; }
                 else
                 {
                     value = (go1 * v_mp1 / d_np_mp1 +
