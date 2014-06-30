@@ -2302,36 +2302,38 @@ v(np)  =   ---------------------------------------------------------------------
             if (gc.map[y, x] != null ){
                 v_mp1 = napsValues[t, gc.map[y, x].lat];
                 d_np_mp1 = gc.map[y, x].distance;
-                go1 = (d_np_mp1 > 20 || v_mp1 == missValue || v_mp1 == fillValue || v_mp1 == napsMissvalue) ? 0 : 1;
+                go1 = (v_mp1 < 0 || d_np_mp1 > 20 || v_mp1 == missValue || v_mp1 == fillValue || v_mp1 >= napsMissvalue) ? 0 : 1;
             }
 
             if (gc.map2[y, x] != null )
             {
                 v_mp2 = napsValues[t, gc.map2[y, x].lat];
                 d_np_mp2 = gc.map2[y, x].distance;
-                go2 = (d_np_mp2 > 20 || v_mp2 == missValue || v_mp2 == fillValue || v_mp2 == napsMissvalue) ? 0 : 1;
+                go2 = (v_mp2 < 0 || d_np_mp2 > 20 || v_mp2 == missValue || v_mp2 == fillValue || v_mp2 >= napsMissvalue) ? 0 : 1;
             }
 
             if (gc.map3[y, x] != null )
             {
                 v_mp3 = napsValues[t, gc.map3[y, x].lat];
                 d_np_mp3 = gc.map3[y, x].distance;
-                go3 = (d_np_mp3 > 20 || v_mp3 == missValue || v_mp3 == fillValue || v_mp3 == napsMissvalue) ? 0 : 1;
+                go3 = (v_mp3 < 0 || d_np_mp3 > 20 || v_mp3 == missValue || v_mp3 == fillValue || v_mp3 >= napsMissvalue) ? 0 : 1;
             }
 
             if (gc.map4[y, x] != null )
             {
                 v_mp4 = napsValues[t, gc.map4[y, x].lat];
                 d_np_mp4 = gc.map4[y, x].distance;
-                go4 = (d_np_mp4 > 20 || v_mp4 == missValue || v_mp4 == fillValue || v_mp4 == napsMissvalue) ? 0 : 1;
+                go4 = (v_mp4 < 0 || d_np_mp4 > 20 || v_mp4 == missValue || v_mp4 == fillValue || v_mp4 >= napsMissvalue) ? 0 : 1;
             }
             double value = missValue;
             if ((go1 + go2 + go3 + go4) > 0)
             {
+                if (d_np_mp1 < 1){
                 if (go4 == 1 && (d_np_mp4 < 1)) { value = v_mp4; }
                 if (go3 == 1 && (d_np_mp3 < 1)) { value = v_mp3; }
                 if (go2 == 1 && (d_np_mp2 < 1)) { value = v_mp2; }
-                if (go1==1 && (d_np_mp1 < 1))   { value = v_mp1; }
+                if (go1 == 1 && (d_np_mp1 < 1)) { value = v_mp1; }
+                }
                 else
                 {
                     value = (go1 * v_mp1 / d_np_mp1 +
